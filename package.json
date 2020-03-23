@@ -1,0 +1,36 @@
+{
+  "name": "js-challenge",
+  "version": "1.0.0",
+  "description": "JS-challenge Web",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -r esm ./index.js"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "cryptr": "^6.0.1",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.5.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/register": "^7.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b21quocbao/JS-Challenge.git"
+  },
+  "author": "b21, kien, thong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b21quocbao/JS-Challenge/issues"
+  },
+  "homepage": "https://github.com/b21quocbao/JS-Challenge#readme"
+}
