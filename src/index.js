@@ -94,6 +94,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         })
         
 		app.get("/:link", (req, res) => {
+            
             res.render(req.params.link, { login: req.cookies.login, loginFail: 0, registerFail: 0 })
         })
 

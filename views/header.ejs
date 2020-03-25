@@ -33,10 +33,10 @@
                         <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">Tài Liệu</a><a class="dropdown-item" role="presentation" href="#">Lịch Học</a></div>
                     </li>
                       <li class="nav-item" role="presentation"><a class="nav-link active" href="about-us">VỀ CHÚNG TÔI</a></li>
-                    <% if (!login) { %>
+                    <% if (login == 0) { %>
                       <li class="nav-item" role="presentation"><a class="nav-link" href="login">đăng nhập</a></li>
                       <li class="nav-item" role="presentation"><a class="nav-link" href="registration">ĐĂNG KÝ</a></li>
-                    <% } else { %>
+                    <% } else if (login == 1) { %>
                       <li class="nav-item" role="presentation"><a class="nav-link" href="user">trang cá nhân</a></li>
                       <li class="nav-item" role="presentation"><a class="nav-link" href="members">thành viên</a></li>
                       <li class="nav-item" role="presentation"><a class="nav-link" href="logout">đăng xuất</a></li>
