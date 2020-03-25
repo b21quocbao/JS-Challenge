@@ -178,13 +178,118 @@ html, body {
 }
 
 a:hover {
-  color: #ff56b3;
+  color: #ff5656;
   text-decoration: underline;
 }
 
 a {
-  color: #ff7bff;
+  color: #ff7b7b;
   text-decoration: none;
   background-color: transparent;
+}
+
+.clean-block.clean-form form {
+  border-top: 2px solid #f35e5e;
+  background-color: #fff;
+  max-width: 500px;
+  margin: auto;
+  padding: 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.075);
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #cc0000;
+  border-color: #bf0000;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(255,38,38,0.5);
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  box-shadow: 0 0 0 .2rem rgba(255,38,38,0.5);
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #d90000;
+  border-color: #cc0000;
+}
+
+.btn.focus, .btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(255,0,0,0.25);
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-outline-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(255,0,0,0.5);
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show > .btn-outline-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.btn-outline-primary.focus, .btn-outline-primary:focus {
+  box-shadow: 0 0 0 .2rem rgba(255,0,0,0.5);
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.btn-outline-primary {
+  color: #ff0000;
+  border-color: #ff0000;
+}
+
+.feature-box .icon {
+  font-size: 30px;
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  width: 30px;
+  text-align: center;
+  color: #e03b3b;
+}
+
+.clean-card .icons a {
+  font-size: 16px;
+  color: #e03b3b;
+  opacity: .75;
+  height: 2em;
+  line-height: 2;
+  text-align: center;
+  padding: .6em .4em;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  margin: .125rem 0 0;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: rgba(255,255,255,0.5);
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: .25rem;
 }
 
