@@ -98,16 +98,17 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         })
 
         io.on('connection', function(socket) {
-            
-            var cookies = cookie.parse(socket.handshake.headers.cookie);
-            if (cookies.login) {
-                db.collection("Users").updateOne({ "email": cookies.email }, { $push: { "socket": socket.id } })
-            }
-            socket.on('disconnect', function(){
+            if (socket.handshake.headers.cookie) {
+                var cookies = cookie.parse(socket.handshake.headers.cookie);
                 if (cookies.login) {
-                    db.collection("Users").updateOne({ "email": cookies.email }, { $pull: { "socket": socket.id } })
+                    db.collection("Users").updateOne({ "email": cookies.email }, { $push: { "socket": socket.id } })
                 }
-            })
+                socket.on('disconnect', function(){
+                    if (cookies.login) {
+                        db.collection("Users").updateOne({ "email": cookies.email }, { $pull: { "socket": socket.id } })
+                    }
+                })
+            }
         });
 
 		http.listen(port, () => {
