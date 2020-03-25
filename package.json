@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/b21quocbao/JS-Challenge/issues"
   },
-  "homepage": "https://github.com/b21quocbao/JS-Challenge#readme"
+  "homepage": "https://github.com/b21quocbao/JS-Challenge#readme",
+  "engines": {
+    "node": "13.x"
+  }
 }
