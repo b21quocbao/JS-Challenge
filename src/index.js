@@ -4,7 +4,6 @@ import { MongoClient } from "mongodb"
 import cookieParser from "cookie-parser";
 
 const port = process.env.PORT || 3000
-let login = 0
 let ejs = require("ejs")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -26,7 +25,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
 
         app.get("/user", (req, res) => {
             db.collection("Users").findOne({ "email": req.cookies.email }, (err, result) => {
-                res.render("user", { login: login, loginFail: 0, registerFail: 0, profile: result })
+                res.render("user", { login: req.cookies.login, loginFail: 0, registerFail: 0, profile: result })
             })
         })
 
@@ -60,7 +59,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         })
 
         app.get("/logout", (req, res) => {
-            login = 0
+            res.cookie("login", 0)
             db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "socket": [] } })
             res.redirect("/index")
         })
@@ -71,12 +70,12 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
                     db.collection("Users").insertOne(
                         { "email": req.body.email, "password": req.body.password, "name": req.body.name }
                     )
-                    login = 1
+                    res.cookie("login", 1)
                     res.cookie("email", req.body.email)
                     res.cookie("password", req.body.password)
                     res.redirect("/InfoUpdate")
                 } else {
-                    res.render("registration", { login: login, loginFail: 0, registerFail: 1 })
+                    res.render("registration", { login: req.cookies.login, loginFail: 0, registerFail: 1 })
                 }
             })
         })
@@ -84,9 +83,9 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         app.post("/loginProcess", (req, res) => {
             db.collection("Users").findOne({email: req.body.email}, (err, result) => {
                 if (result == null || result.password != req.body.password) {
-                    res.render("login", { login: login, loginFail: 1, registerFail: 0 })
+                    res.render("login", { login: req.cookies.login, loginFail: 1, registerFail: 0 })
                 } else {
-                    login = 1
+                    res.cookie("login", 1)
                     res.cookie("email", req.body.email)
                     res.cookie("password", req.body.password)
                     res.redirect("/user")
@@ -95,17 +94,17 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         })
         
 		app.get("/:link", (req, res) => {
-            res.render(req.params.link, { login: login, loginFail: 0, registerFail: 0 })
+            res.render(req.params.link, { login: req.cookies.login, loginFail: 0, registerFail: 0 })
         })
 
         io.on('connection', function(socket) {
             
             var cookies = cookie.parse(socket.handshake.headers.cookie);
-            if (login) {
+            if (cookies.login) {
                 db.collection("Users").updateOne({ "email": cookies.email }, { $push: { "socket": socket.id } })
             }
             socket.on('disconnect', function(){
-                if (login) {
+                if (cookies.login) {
                     db.collection("Users").updateOne({ "email": cookies.email }, { $pull: { "socket": socket.id } })
                 }
             })
