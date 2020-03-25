@@ -6,19 +6,33 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="media">
-                            <div><img class="rounded-circle mr-3" style="height: 50px; width: 50px;" src="assets/img/user-photo2.jpg"></div>
+                            <div><img class="rounded-circle mr-3" style="height: 50px; width: 50px;" src="assets/img/user-photo2.jpg"><p>@<%= profile.username %></p></div>
                             <div class="media-body">
                                 <ul class="list-unstyled fa-ul">
-                                    <li><i class="fa fa-user fa-li" style="font-size: 16px;"></i><a href="#">Cao Tam Kiên</a></li>
-                                    <li><i class="fa fa-envelope fa-li"></i><a href="#">kiencthe140322@fpt.edu.vn</a></li>
-                                    <li><i class="fa fa-phone fa-li"></i>0854 812 361</li>
+                                    <% if (profile.name) { %>
+                                      <li><i class="fas fa-user fa-li" style="font-size: 16px;"></i><%= profile.name %></li>
+                                    <% } %>
+                                    <li><i class="fas fa-envelope fa-li"></i><%= profile.email %></li>
+                                    <% if (profile.phone) { %>
+                                      <li><i class="fas fa-phone fa-li"></i><%= profile.phone %></li>
+                                    <% } %>
+                                    <br>
+                                    <br>
+                                    <li><a href="/InfoUpdate" style="color: blue;">Thay đổi thông tin cá nhân</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div></div>
                         <hr>
-                        <p><i class="fa fa-home fa-fw"></i>A109L<br>
-<span class="text-muted"><i class="fa fa-calendar fa-fw"></i>&nbsp;25/11/2000</span></p>
+                        <% if (profile.schoolEmail) { %>
+                          <p><i class="far fa-envelope"></i><%= profile.schoolEmail %><br>
+                        <% } %>
+                        <% if (profile.home) { %>
+                        <p><i class="fa fa-home fa-fw"></i><%= profile.home %><br>
+                        <% } %>
+                        <% if (profile.dob) { %>
+<span class="text-muted"><i class="fa fa-calendar fa-fw"></i>&nbsp;<%= profile.dob %></span></p>
+                        <% } %>
                     </div>
                     <div class="card-footer">
                         <div class="media">

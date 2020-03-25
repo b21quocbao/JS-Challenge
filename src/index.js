@@ -1,10 +1,13 @@
 import app from "./server";
+import cookie from "cookie"
 import { MongoClient } from "mongodb"
+import cookieParser from "cookie-parser";
 
 const port = process.env.PORT || 3000
 let login = 0
 let ejs = require("ejs")
-let curEmail = ""
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 MongoClient.connect(process.env.MFLIX_DB_URI, {
 	wtimeout: 2500,
@@ -21,9 +24,44 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
 			res.redirect("/index")
         })
 
+        app.get("/user", (req, res) => {
+            db.collection("Users").findOne({ "email": req.cookies.email }, (err, result) => {
+                res.render("user", { login: login, loginFail: 0, registerFail: 0, profile: result })
+            })
+        })
+
+        app.post("/InfoUpdated", (req, res) => {
+            // console.log(req.body.avatar-file);
+            if (req.body.name) {
+                db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "name": req.body.name } })
+            }
+            if (req.body.phone) {
+                db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "phone": req.body.phone } })
+            }
+            if (req.body.schoolEmail) {
+                db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "schoolEmail": req.body.schoolEmail } })
+            }
+            if (req.body.dob) {
+                db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "dob": req.body.dob } })
+            }
+            if (req.body.home) {
+                db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "home": req.body.home } })
+            }
+            console.log(req.body);
+            res.redirect("/user")
+        })
+
+        app.get("/members", (req, res) => {
+            db.collection("Users").find({}).toArray((err, result) => {
+                for (let i = 0; i < result.length; ++ i)
+                console.log(result[i].email, " ", (result[i].socket == undefined ? 0 : result[i].socket.length));
+            });
+            res.redirect("/")
+        })
+
         app.get("/logout", (req, res) => {
             login = 0
-            db.collection("Users").updateOne({ "email": curEmail }, { $set: {"active": 0} })
+            db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "socket": [] } })
             res.redirect("/index")
         })
 
@@ -34,8 +72,8 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
                         { "email": req.body.email, "password": req.body.password, "name": req.body.name }
                     )
                     login = 1
-                    db.collection("Users").updateOne({ "email": req.body.email }, { $set: {"active": 1} })
-                    curEmail = req.body.email
+                    res.cookie("email", req.body.email)
+                    res.cookie("password", req.body.password)
                     res.redirect("/InfoUpdate")
                 } else {
                     res.render("registration", { login: login, loginFail: 0, registerFail: 1 })
@@ -49,8 +87,8 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
                     res.render("login", { login: login, loginFail: 1, registerFail: 0 })
                 } else {
                     login = 1
-                    db.collection("Users").updateOne({ "email": req.body.email }, { $set: {"active": 1} } )
-                    curEmail = req.body.email
+                    res.cookie("email", req.body.email)
+                    res.cookie("password", req.body.password)
                     res.redirect("/user")
                 }
             })
@@ -60,7 +98,20 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
             res.render(req.params.link, { login: login, loginFail: 0, registerFail: 0 })
         })
 
-		app.listen(port, () => {
+        io.on('connection', function(socket) {
+            
+            var cookies = cookie.parse(socket.handshake.headers.cookie);
+            if (login) {
+                db.collection("Users").updateOne({ "email": cookies.email }, { $push: { "socket": socket.id } })
+            }
+            socket.on('disconnect', function(){
+                if (login) {
+                    db.collection("Users").updateOne({ "email": cookies.email }, { $pull: { "socket": socket.id } })
+                }
+            })
+        });
+
+		http.listen(port, () => {
 			console.log(`listening on port ${port}`)
 		})
 	})

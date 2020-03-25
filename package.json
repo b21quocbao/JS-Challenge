@@ -9,6 +9,8 @@
   "dependencies": {
     "assert": "^2.0.0",
     "body-parser": "^1.19.0",
+    "cookie": "^0.4.0",
+    "cookie-parser": "^1.4.5",
     "cryptr": "^6.0.1",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
@@ -16,7 +18,8 @@
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "mongodb": "^3.5.5",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
