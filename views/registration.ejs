@@ -7,7 +7,7 @@
           <h2 class="text-info">Đăng Ký</h2>
           <p>Bạn đã có tài khoản? <a href="login">Đăng nhập</a></p>
           <% if (registerFail) {%>
-            <div class="btn-warning">Email đã tồn tại</div>
+            <div class="btn-warning">Email hoặc username đã tồn tại</div>
           <% } %>
         </div>
         <form method="POST" action="/registerComplete">

@@ -1,0 +1,56 @@
+<%- include("header"); -%>
+   
+   <main class="page blog-post-list">
+        <section class="clean-block clean-blog-list dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Bản tin</h2>
+                    <p>Chỉ có làm chịu khó cần cù thì bù siêng năng. Chỉ có làm thì mới có ăn. Những cái loại không làm mà đòi có ăn thì ...</p>
+                </div>
+                <div class="block-content">
+                  <% for (let i of posts) { %>
+                    <div class="clean-blog-post">
+                        <div class="row">
+                            <div class="col-lg-5"><img class="rounded img-fluid dmmImg2" src=""></div>
+                            <p class="dmpivot2"><%= i.imgPath %></p>
+                            <div class="col-lg-7">
+                                <h3><%= i.name %></h3>
+                                <div class="info"><span class="text-muted"><%= i.date %> by&nbsp;<a href="#"><%= i.createdBy %></a></span></div>
+                                <%- i.brief %><br><br>
+                                <p class="dmpivot3"><%= i._id %></p>
+                                <form class="dmmImg3" action="/post/i._id" method="GET">
+                                  <button class="btn btn-outline-primary btn-sm" type="submit">Read More</button></div>
+                                </form>
+                        </div>
+                    </div>
+                  <% } %>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <% if (login == 1) { %>
+                  <form action="addPost">
+                    <button class="btn btn-primary btn-lg" type="submit" href="addPost">Thêm post</button>
+                  </form>
+                <% } %>
+            </div>
+        </section>
+    </main>
+    <script>
+      let a = document.getElementsByClassName("dmpivot2");
+      let b = document.getElementsByClassName("dmmImg2");
+      for (let i in a) {
+        b[i].setAttribute("src", a[i].textContent)
+        a[i].hidden = true
+      }
+    </script>
+    <script>
+      let c = document.getElementsByClassName("dmpivot3");
+      let d = document.getElementsByClassName("dmmImg3");
+      for (let i in c) {
+        d[i].setAttribute("action", "/post/" + c[i].textContent)
+        c[i].hidden = true
+      }
+    </script>
+<%- include("footer"); -%>

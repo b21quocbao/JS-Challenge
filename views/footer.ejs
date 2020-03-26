@@ -1,8 +1,38 @@
     <footer class="page-footer dark">
+      <section class="clean-block about-us" style="padding:0">
+        <% if (login == 1) { %>
+        <div class="container" data-aos="fade">
+            <div class="block-heading" style="padding:0">
+                <h2 class="text-info">Thành viên gần đây</h2>
+            </div>
+            <div class="row user-list">
+              <% for (let i of status) { %>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 user-item">
+                    <div class="user-container"><a class="user-avatar userdmml" href="#"><img class="rounded-circle img-fluid" src="assets/img/avatar.jpg" width="48" height="48" alt="Profile of Mark Smith Peterson"></a>
+                        
+                        <p class="user-name"><a href="#" class="userlinkdm userdmmle" style="color: black;" onmouseover="this.style.color='blue'" onmouseout="this.style.color='black'"><%= i.username %></a><span>
+                        <% if (i.socket !== undefined && i.socket.length) { %>
+                          Online</span></p>
+                          <a class="user-online"> </a>
+                        <% } else { %>
+                          Offline</span></p>
+                          <a class="user-offline"> </a>
+                        <% } %>
+                    </div>
+                </div>
+              <% } %>
+            </div>
+        </div>
+        <% } %>
+    </section>
         <div class="footer-copyright">
             <p>© 2020 Tamkien Cao</p>
         </div>
     </footer>
+    <script>
+      for (let i of document.getElementsByClassName("userdmmle"))
+      i.setAttribute("href", "/user/" + i.textContent)
+    </script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>

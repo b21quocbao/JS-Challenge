@@ -1,0 +1,26 @@
+<%- include("header"); -%>
+
+    <main class="page blog-post">
+        <section class="clean-block clean-post dark">
+            <div class="container">
+                <div class="block-content">
+                    <div class="post-image dmmImg4" style="background-image:url(&quot;assets/img/scenery/image3.jpg&quot;);"></div>
+                    <p class="dmpivot4"><%= i.imgPath %></p>
+                    <div class="post-body">
+                        <h3><%= i.name %></h3>
+                        <div class="post-info"><span>By <%= i.createdBy %></span><span><%= i.date %></span></div>
+                        <%- i.post %>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+      let a = document.getElementsByClassName("dmpivot4");
+      let b = document.getElementsByClassName("dmmImg4");
+      for (let i in a) {
+        b[i].setAttribute("style", "background-image:url(\"" + a[i].textContent + "\");")
+        a[i].hidden = true
+      }
+    </script>
+<%- include("footer"); -%>

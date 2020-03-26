@@ -1,0 +1,34 @@
+<%- include("header"); -%>
+<main class="page landing-page">
+  <section class="clean-block clean-form dark">
+    <div class="container">
+      <div class="block-heading">
+        <h2 class="text-info">Thêm training</h2>
+      </div>
+
+      <form method="POST" action="/addedTraining">
+        <div class="form-group"><label for="name">Training name</label><input class="form-control item" type="text" id="name"
+            name="name"></div>
+        <div class="form-group"><label for="mentor">Mentor</label><input class="form-control item" type="text" id="mentor"
+            name="mentor"></div>
+        <div class="form-group"><label for="phone">Phone</label><input class="form-control item" type="tel" id="phone"
+            name="phone"></div>
+        <div class="form-group"><label for="room">Room</label><input class="form-control item" type="text" id="room"
+            name="room"></div>
+        <div class="form-group"><label for="startDate">Start Date</label><input class="form-control item" type="date" id="startDate"
+            name="startDate"></div>
+        <div class="form-group"><label for="endDate">End Date</label><input class="form-control item" type="date" id="endDate"
+            name="endDate"></div>
+        <div class="form-group"><label for="meet">Google meet link</label><input class="form-control item" type="url" id="meet"
+            name="meet"></div>
+        <div class="form-group"><label for="link">Material link</label><input class="form-control item" type="url" id="link"
+            name="link"></div>
+        <div class="form-group"><label for="imgPath">Link Ảnh</label><input class="form-control item" type="text" id="imgPath"
+            name="imgPath"></div>
+        </br>
+        <button class="btn btn-primary btn-block" type="submit">Tạo training</button>
+      </form>
+    </div>
+  </section>
+</main>
+<%- include("footer"); -%>

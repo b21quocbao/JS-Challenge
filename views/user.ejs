@@ -18,7 +18,9 @@
                                     <% } %>
                                     <br>
                                     <br>
-                                    <li><a href="/InfoUpdate" style="color: blue;">Thay đổi thông tin cá nhân</a></li>
+                                    <% if (update) { %>
+                                      <li><a href="/InfoUpdate" style="color: blue;">Thay đổi thông tin cá nhân</a></li>
+                                    <% } %>
                                 </ul>
                             </div>
                         </div>
@@ -33,14 +35,6 @@
                         <% if (profile.dob) { %>
 <span class="text-muted"><i class="fa fa-calendar fa-fw"></i>&nbsp;<%= profile.dob %></span></p>
                         <% } %>
-                    </div>
-                    <div class="card-footer">
-                        <div class="media">
-                            <div><img class="rounded-circle mr-3" style="height: 25px; width: 25px;" src="assets/img/avatar.jpg"></div>
-                            <div class="media-body"><a href="#">Alberto Gonzalez</a>
-                                <p>Comment vào đây à?</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
