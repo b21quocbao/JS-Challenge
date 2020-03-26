@@ -68,7 +68,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
             db.collection("Users").findOne({email: req.body.email}, (err, result) => {
                 if (result === null) { 
                     db.collection("Users").insertOne(
-                        { "email": req.body.email, "password": req.body.password, "name": req.body.name }
+                        { "email": req.body.email, "password": req.body.password, "username": req.body.username }
                     )
                     res.cookie("login", 1)
                     res.cookie("email", req.body.email)
