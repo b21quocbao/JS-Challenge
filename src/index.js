@@ -63,7 +63,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
                 for (let i of Object.keys(req.body))
                 if (req.body[i])
                 db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { [i]: req.body[i] } })
-                res.redirect("/user")
+                res.redirect("/profile")
             } else {
                 res.redirect("/")
             }
