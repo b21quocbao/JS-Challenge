@@ -29,11 +29,37 @@
                     <p>Các thành viên phải tham gia đầy đủ đúng giờ các buổi. Các mentor gửi lại slide cho trưởng ban.</p>
                 </div>
                 <div class="block-content">
-                  <% for (let i of trainings) { %>
+                  <% for (let j in trainings) { %>
+                    <% let i = trainings[j], id = "modal-" + j.toString() %>
+                    <div class="modal micromodal-slide" id="<%= id %>" aria-hidden="true">
+                      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+                        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                          <header class="modal__header">
+                            <h1 class="modal__title" id="modal-1-title">
+                              <%= i.name %>
+                            </h1>
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                          </header>
+                          <main class="modal__content" id="modal-1-content">
+                            <h3 style="font-weight: 600;">Giới thiệu</h3>
+                            <p>
+                              <%= i.brief %>
+                            </p>
+                            <h3 style="font-weight: 600;">Độ phổ biến</h3>
+                            <p><%= i.popular %></p>
+                            <h3 style="font-weight: 600;">Yêu cầu</h3>
+                            <%- i.requirement %>
+                            <h3 style="font-weight: 600;">Syllabus</h3>
+                            <%= i.syllabus %>
+                          </main>
+                        </div>
+                      </div>
+                    </div>
                     <div class="clean-blog-post">
                         <div class="row">
                             <div class="col-lg-5 dmDivImg"><img class="rounded img-fluid" src="<%= i.imgPath %>" ></div>
                             <div class="col-lg-7">
+                              
                               <h3><%= i.name %></h3>
                               <br>
                               <ul class="list-unstyled fa-ul">
@@ -63,7 +89,7 @@
                                   <button class="btn btn-outline-success btn-sm mr-1" type="submit">Đăng ký tham gia</button>
                                 </form>
                               <% } %>
-                              <button class="btn btn-outline-primary btn-sm mr-1" type="button">Chi tiết</button>
+                              <button class="btn btn-outline-primary btn-sm mr-1 myButton">Chi tiết</button>
                               <% if (login == 1) { %>
                                 <% let sedit = "/training/edit/" + i._id %>
                                 <form action="<%= sedit %>" style="display: inline;"  method="GET">

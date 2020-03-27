@@ -10,6 +10,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const restrictSite = ["user", "addTraining", "InfoUpdate", "logout"]
 
+
 MongoClient.connect(process.env.MFLIX_DB_URI, {
 	wtimeout: 2500,
 	useNewUrlParser: true
@@ -20,9 +21,8 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
 	})
 	.then(async client => {
         let db = client.db("Web")
-
-        //--------------------PRIVATE-------------------------------
         
+        //--------------------PRIVATE-------------------------------
         app.get("/user/:username", (req, res) => {
             if (req.cookies.login == 1) {
                 db.collection("Users").findOne({ "username": req.params.username }, (err, result) => {
@@ -89,6 +89,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
 
         app.post("/addedTraining", (req, res) => {
             if (req.cookies.login == 1) {
+                req.body.requirement = '<ul><li>' + req.body.requirement1.replace("\n", "</li><li>") + '</li></ul>';
                 db.collection("training").insertOne(req.body)
                 res.redirect("training")
             } else {
@@ -119,6 +120,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
 
         app.post("/training/update/:_id", (req, res) => {
             if (req.cookies.login == 1) {
+                req.body.requirement = '<ul><li>' + req.body.requirement1.replace("\n", "</li><li>") + '</li></ul>';
                 db.collection("training").updateOne(
                     { "_id": ObjectId (req.params._id) },
                     { $set: req.body }
