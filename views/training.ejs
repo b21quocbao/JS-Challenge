@@ -72,7 +72,7 @@
                                 <li><i class="fas fa-link fa-li"></i><a href=""><%= i.link %></a></li>
                               </ul>
                               <% let ok = 0 %>
-                              <% if (profile) { %>
+                              <% if (profile && profile.training) { %>
                               <% for (let k of profile.training) {%>
                               <% if (k == i._id) {%>
                               <% ok = 1 %>
