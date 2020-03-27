@@ -1,0 +1,19 @@
+<%- include("header"); -%>
+<main class="page landing-page">
+  <section class="clean-block clean-form dark">
+    <div class="container">
+      <div class="block-heading">
+        <h2 class="text-info">GỬI CONFESSIONS</h2>
+      </div>
+      <form method="POST" action="/addedConfession" style="
+      margin: auto;
+      width: 1000px;max-width: 1000px;">
+        <div class="form-group"><label for="confes">Bạn muốn nói gì để chúng mình up lên JS Confessions nào?</label><textarea class="form-control item" type="text" id="confes"
+          name="text"></textarea></div>
+        </br>
+        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+</main>
+<%- include("footer"); -%>

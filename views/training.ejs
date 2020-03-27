@@ -55,6 +55,28 @@
                         </div>
                       </div>
                     </div>
+                    <% let id1 = "amodal-" + j.toString() %>
+                    <div class="modal micromodal-slide" id="<%= id1 %>" aria-hidden="true">
+                      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+                        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                          <header class="modal__header">
+                            <h1 class="modal__title" id="modal-1-title">
+                              Do you really want to delete this training? 
+                            </h1>
+                            <br>
+                            <br>
+                            <br>
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                          </header>
+                          <footer class="modal__footer">
+                            <form action="/training/delete/<%=i._id%>" method="POST" style="display: inline; margin-right: 10px;">
+                              <button class="modal__btn modal__btn-primary">Yes</button>
+                            </form>
+                            <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+                          </footer>
+                        </div>
+                      </div>
+                    </div>
                     <div class="clean-blog-post">
                         <div class="row">
                             <div class="col-lg-5 dmDivImg"><img class="rounded img-fluid" src="<%= i.imgPath %>" ></div>
@@ -92,15 +114,12 @@
                                 </form>
                               <% } %>
                               <button class="btn btn-outline-primary btn-sm mr-1 myButton">Chi tiết</button>
-                              <% if (login == 1) { %>
+                              <% if (admin == 1) { %>
                                 <% let sedit = "/training/edit/" + i._id %>
                                 <form action="<%= sedit %>" style="display: inline;"  method="GET">
                                   <button class="btn btn-warning btn-sm mr-1" type="submit">Chỉnh sửa bài viết</button>
                                 </form>
-                                <% let sdel = "/training/delete/" + i._id %>
-                                <form action="<%= sdel %>" method="POST" style="display: inline;" class="deletedm">
-                                  <button class="btn btn-danger btn-sm" type="submit">Xoá bài viết</button>
-                                </form>
+                                  <button class="btn btn-danger btn-sm myButton1">Xoá bài viết</button>
                               <% } %>
                             </div>
                         </div>
@@ -111,7 +130,7 @@
                     <br>
                     <br>
                     <br>
-                    <% if (login == 1) { %>
+                    <% if (admin == 1) { %>
                     <form action="addTraining">
                       <button class="btn btn-primary btn-lg" type="submit" href="addTraining">Thêm training</button>
                     </form>

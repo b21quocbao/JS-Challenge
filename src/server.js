@@ -15,6 +15,7 @@ app.use(express.static('public'))
 app.use('/user', express.static('public'))
 app.use('/post', express.static('public'))
 app.use('/training/edit', express.static('public'))
+app.use('/post/edit', express.static('public'))
 app.use(cookieParser())
 
 export default app

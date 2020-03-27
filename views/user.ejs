@@ -20,6 +20,9 @@
                                         <li><i class="fas fa-female fa-li"></i>Nữ</li>
                                       <% } %>
                                     <% } %>
+                                    <% if (profile.role) { %>
+                                      <li><i class="fas fa-user-tag fa-li"></i><%= profile.role %></li>
+                                    <% } %>
                                     <% if (profile.phone) { %>
                                       <li><i class="fas fa-phone fa-li"></i><%= profile.phone %></li>
                                     <% } %>

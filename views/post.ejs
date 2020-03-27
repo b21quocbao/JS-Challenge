@@ -1,26 +1,55 @@
 <%- include("header"); -%>
 
-    <main class="page blog-post">
-        <section class="clean-block clean-post dark">
-            <div class="container">
-                <div class="block-content">
-                    <div class="post-image dmmImg4" style="background-image:url(&quot;assets/img/scenery/image3.jpg&quot;);"></div>
-                    <p class="dmpivot4"><%= i.imgPath %></p>
-                    <div class="post-body">
-                        <h3><%= i.name %></h3>
-                        <div class="post-info"><span>By <%= i.createdBy %></span><span><%= i.date %></span></div>
-                        <%- i.post %>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <script>
-      let a = document.getElementsByClassName("dmpivot4");
-      let b = document.getElementsByClassName("dmmImg4");
-      for (let i in a) {
-        b[i].setAttribute("style", "background-image:url(\"" + a[i].textContent + "\");")
-        a[i].hidden = true
-      }
-    </script>
+<main class="page blog-post">
+  <section class="clean-block clean-post dark">
+    <div class="container">
+      <div class="block-content">
+        <div class="post-image dmmImg4" style="background-image:url(&quot;assets/img/scenery/image3.jpg&quot;);"></div>
+        <p class="dmpivot4"><%= i.imgPath %></p>
+        <div class="post-body">
+          <h3><%= i.name %></h3>
+          <div class="post-info"><span>By <%= i.createdBy %></span><span><%= i.date %></span></div>
+          <%- i.post %>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="media">
+          <% if (login == 1) { %>
+          <form method="POST" action="/addComment">
+            <div class="form-group"><label for="text">Thêm comment</label><textarea class="form-control item" type="text"
+                id="text" name="text" style="width:1000px"></textarea></div>
+            <input type="text" name="postId" value="<%= i._id %>" style="display: none;">
+            <button class="btn btn-primary btn-block" type="submit">Tạo comment</button>
+            <br>
+          </form>
+          <% } %>
+        </div>
+        <% if (i.comments) { %>
+        <% for (let j of i.comments) { %>
+        <div class="media">
+          <% let x = (j.avatarFile ? j.avatarFile : 'assets/img/avatars/1.jpg') %>
+          <div><img class="rounded-circle mr-3" style="height: 25px; width: 25px;" src="<%= x %>"></div>
+          <div class="media-body"><a href="#"><%= j.username %></a>
+            <p><%= j.text %></p>
+          </div>
+        </div>
+        <% } %>
+        <% } %>
+      </div>
+    </div>
+    <% if (login == 1) { %>
+      <form action="addConfession">
+        <button class="btn btn-primary btn-lg" type="submit">Thêm confession</button>
+      </form>
+    <% } %>
+  </section>
+</main>
+<script>
+  let a = document.getElementsByClassName("dmpivot4");
+  let b = document.getElementsByClassName("dmmImg4");
+  for (let i in a) {
+    b[i].setAttribute("style", "background-image:url(\"" + a[i].textContent + "\");")
+    a[i].hidden = true
+  }
+</script>
 <%- include("footer"); -%>

@@ -1,5 +1,26 @@
 <%- include("header"); -%>
-   
+<style>
+  .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+  }
+  .btn-outline-primary.focus, .btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+  }
+</style>
    <main class="page blog-post-list">
         <section class="clean-block clean-blog-list dark">
             <div class="container">
@@ -8,7 +29,30 @@
                     <p>Chỉ có làm chịu khó cần cù thì bù siêng năng. Chỉ có làm thì mới có ăn. Những cái loại không làm mà đòi có ăn thì ...</p>
                 </div>
                 <div class="block-content">
-                  <% for (let i of posts) { %>
+                  <% for (let j in posts) { %>
+                    <% let i = posts[j] %>
+                    <% let id2 = "bmodal-" + j.toString() %>
+                    <div class="modal micromodal-slide" id="<%= id2 %>" aria-hidden="true">
+                      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+                        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                          <header class="modal__header">
+                            <h1 class="modal__title" id="modal-1-title">
+                              Do you really want to delete this training? 
+                            </h1>
+                            <br>
+                            <br>
+                            <br>
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                          </header>
+                          <footer class="modal__footer">
+                            <form action="/post/delete/<%=i._id%>" method="POST" style="display: inline; margin-right: 10px;">
+                              <button class="modal__btn modal__btn-primary">Yes</button>
+                            </form>
+                            <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+                          </footer>
+                        </div>
+                      </div>
+                    </div>
                     <div class="clean-blog-post">
                         <div class="row">
                             <div class="col-lg-5"><img class="rounded img-fluid dmmImg2" src=""></div>
@@ -18,9 +62,16 @@
                                 <div class="info"><span class="text-muted"><%= i.date %> by&nbsp;<a href="#"><%= i.createdBy %></a></span></div>
                                 <%- i.brief %><br><br>
                                 <p class="dmpivot3"><%= i._id %></p>
-                                <form class="dmmImg3" action="/post/i._id" method="GET">
-                                  <button class="btn btn-outline-primary btn-sm" type="submit">Read More</button></div>
+                                <form class="dmmImg3" action="/post/i._id" method="GET" style="display: inline;">
+                                  <button class="btn btn-outline-primary btn-sm mr-1" type="submit">Read More</button>
                                 </form>
+                                <% if (admin == 1) {%>
+                                  <form action="/post/edit/<%= i._id %>" method="GET" style="display: inline;">
+                                    <button class="btn btn-outline-warning btn-sm mr-1" type="submit">Edit Post</button>
+                                  </form>
+                                  <button class="btn btn-outline-danger btn-sm myButton2">Delete Post</button>
+                                <% } %>
+                              </div>
                         </div>
                     </div>
                   <% } %>
@@ -29,7 +80,7 @@
                 <br>
                 <br>
                 <br>
-                <% if (login == 1) { %>
+                <% if (admin == 1) { %>
                   <form action="addPost">
                     <button class="btn btn-primary btn-lg" type="submit" href="addPost">Thêm post</button>
                   </form>
