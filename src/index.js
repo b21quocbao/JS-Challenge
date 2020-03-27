@@ -136,7 +136,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         })
 
         app.get("/post-list", (req, res) => {
-            db.collection("post").find({}).toArray((err, result) => {
+            db.collection("post").find({}).sort({ _id: -1 }).toArray((err, result) => {
                 db.collection("Users").find({}).toArray((err, result1) => {
                     res.render("post-list", { login: req.cookies.login, loginFail: 0, registerFail: 0, posts: result, status: result1 })
                 })
