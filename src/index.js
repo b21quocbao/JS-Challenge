@@ -35,6 +35,14 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
             }
         })
 
+        app.post("/training/register/:_id", (req, res) => {
+            db.collection("Users").updateOne(
+                { "username": req.cookies.username },
+                { $push: { "training": req.params._id } }
+            )
+            res.redirect("/training")
+        })
+
         app.post("/addedpost", (req, res) => {
             if (req.cookies.login == 1) {
                 console.log(req.body.html);
@@ -88,6 +96,39 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
             }
         })
 
+        app.post("/training/delete/:_id", (req, res) => {
+            if (req.cookies.login == 1) {
+                db.collection("training").deleteOne({ _id: ObjectId(req.params._id) })
+                res.redirect("/training")
+            } else {
+                res.redirect("/")
+            }
+        })
+
+        app.get("/training/edit/:_id", (req, res) => {
+            if (req.cookies.login == 1) {
+                db.collection("Users").find({}).toArray((err, result) => {
+                    db.collection("training").findOne({ "_id": ObjectId(req.params._id) }, (err, result1) => {
+                        res.render("editTraining", { login: req.cookies.login, loginFail: 0, registerFail: 0, status: result, val: result1 })
+                    })
+                })
+            } else {
+                res.redirect("/")
+            }
+        })
+
+        app.post("/training/update/:_id", (req, res) => {
+            if (req.cookies.login == 1) {
+                db.collection("training").updateOne(
+                    { "_id": ObjectId (req.params._id) },
+                    { $set: req.body }
+                )
+                res.redirect("/training")
+            } else {
+                res.redirect("/")
+            }
+        })
+
         //--------------------PUBLIC-------------------------------
 
         app.get("/", (req, res) => {
@@ -97,6 +138,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         app.post("/registerComplete", (req, res) => {
             db.collection("Users").findOne({ $or: [ { "email": req.body.email }, { "username": req.body.username } ] }, (err, result) => {
                 if (result === null) { 
+                    req.body.avatarFile = "assets/img/avatars/" + req.body.sex + ".jpg"
                     db.collection("Users").insertOne(req.body)
                     res.cookie("login", 1)
                     res.cookie("email", req.body.email)
@@ -130,7 +172,9 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         app.get("/training", (req, res) => {
             db.collection("training").find({}).toArray((err, result) => {
                 db.collection("Users").find({}).toArray((err, result1) => {
-                    res.render("training", { login: req.cookies.login, loginFail: 0, registerFail: 0, trainings: result, status: result1 })
+                    db.collection("Users").findOne({ "username": req.cookies.username }, (err, result2) => {
+                        res.render("training", { login: req.cookies.login, loginFail: 0, registerFail: 0, trainings: result, status: result1, profile: result2})
+                    })
                 })
             })
         })

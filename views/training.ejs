@@ -1,5 +1,26 @@
 <%- include("header"); -%>
-
+<style>
+  .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+  }
+  .btn-outline-primary.focus, .btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+  }
+</style>
     <main class="page blog-post-list">
         <section class="clean-block clean-blog-list dark">
             <div class="container">
@@ -11,8 +32,7 @@
                   <% for (let i of trainings) { %>
                     <div class="clean-blog-post">
                         <div class="row">
-                            <div class="col-lg-5 dmDivImg"><img class="rounded img-fluid dmmImg" src="" ></div>
-                            <p class="dmpivot"><%= i.imgPath %></p>
+                            <div class="col-lg-5 dmDivImg"><img class="rounded img-fluid" src="<%= i.imgPath %>" ></div>
                             <div class="col-lg-7">
                               <h3><%= i.name %></h3>
                               <br>
@@ -25,8 +45,35 @@
                                 <li><i class="fas fa-video fa-li"></i><a href=""><%= i.meet %></a></li>
                                 <li><i class="fas fa-link fa-li"></i><a href=""><%= i.link %></a></li>
                               </ul>
-                              <button class="btn btn-outline-primary btn-sm" type="button">Chi tiết</button>
-                              <button class="btn btn-outline-warning btn-sm" type="button">Đăng ký tham gia</button>
+                              <% let ok = 0 %>
+                              <% for (let k of profile.training) {%>
+                              <% if (k == i._id) {%>
+                              <% ok = 1 %>
+                              <% } %>
+                              <% } %>
+                              <% if ( login == 1 && ( ok != 1 ) ) { %>
+                                <% let s = "/training/register/" + i._id %>
+                                <form action="<%= s %>" method="POST" style="display: inline;" class="modiItem">
+                                  <button class="btn btn-outline-success btn-sm mr-1" type="submit">Đăng ký tham gia</button>
+                                </form>
+                              <% } else if (login == 1) { %>
+                                <button class="btn btn-success btn-sm mr-1" type="button"><i class="fas fa-check"></i>Đã đăng ký tham gia</button>
+                              <% } else { %>
+                                <form action="/login" method="GET" style="display: inline;" class="modiItem">
+                                  <button class="btn btn-outline-success btn-sm mr-1" type="submit">Đăng ký tham gia</button>
+                                </form>
+                              <% } %>
+                              <button class="btn btn-outline-primary btn-sm mr-1" type="button">Chi tiết</button>
+                              <% if (login == 1) { %>
+                                <% let sedit = "/training/edit/" + i._id %>
+                                <form action="<%= sedit %>" style="display: inline;"  method="GET">
+                                  <button class="btn btn-warning btn-sm mr-1" type="submit">Chỉnh sửa bài viết</button>
+                                </form>
+                                <% let sdel = "/training/delete/" + i._id %>
+                                <form action="<%= sdel %>" method="POST" style="display: inline;" class="deletedm">
+                                  <button class="btn btn-danger btn-sm" type="submit">Xoá bài viết</button>
+                                </form>
+                              <% } %>
                             </div>
                         </div>
                     </div>
@@ -45,12 +92,4 @@
             </div>
         </section>
     </main>
-    <script>
-      let a = document.getElementsByClassName("dmpivot");
-      let b = document.getElementsByClassName("dmmImg");
-      for (let i in a) {
-        b[i].setAttribute("src", a[i].textContent)
-        a[i].hidden = true
-      }
-    </script>
     <%- include("footer"); -%>

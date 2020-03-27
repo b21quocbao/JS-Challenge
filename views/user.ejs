@@ -6,16 +6,24 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="media">
-                            <div><img class="rounded-circle mr-3" style="height: 50px; width: 50px;" src="assets/img/user-photo2.jpg"><p>@<%= profile.username %></p></div>
+                          <% let src = (profile.avatarFile == undefined ? "assets/img/avatars/1.jpg" : profile.avatarFile) %>
+                            <div><img class="rounded-circle mr-3" style="height: 50px; width: 50px;" src="<%= src %>"><p>@<%= profile.username %></p></div>
                             <div class="media-body">
                                 <ul class="list-unstyled fa-ul">
                                     <% if (profile.name) { %>
                                       <li><i class="fas fa-user fa-li" style="font-size: 16px;"></i><%= profile.name %></li>
                                     <% } %>
-                                    <li><i class="fas fa-envelope fa-li"></i><%= profile.email %></li>
+                                    <% if (profile.sex) { %>
+                                      <% if (profile.sex == 1) { %>
+                                        <li><i class="fas fa-male fa-li"></i>Nam</li>
+                                      <% } else { %>
+                                        <li><i class="fas fa-female fa-li"></i>Nữ</li>
+                                      <% } %>
+                                    <% } %>
                                     <% if (profile.phone) { %>
                                       <li><i class="fas fa-phone fa-li"></i><%= profile.phone %></li>
                                     <% } %>
+                                    <li><i class="fas fa-envelope fa-li"></i><%= profile.email %></li>
                                     <br>
                                     <br>
                                     <% if (update) { %>

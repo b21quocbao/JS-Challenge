@@ -1,6 +1,20 @@
 <%- include("header"); -%>
-
-  <main class="page registration-page">
+  <style>
+    .sexd {
+      float: left;
+      clear: none;
+      display: block;
+      padding: 8px 1em 0px 8px;
+    }
+    
+    input[type=radio],
+    input.radio {
+      float: left;
+      clear: none;
+      margin: 2px 0 0 2px;
+    }
+  </style>
+  <main class="page registration-page" style="margin-top: 30px;">
     <section class="clean-block clean-form dark">
       <div class="container">
         <div class="block-heading">
@@ -10,13 +24,17 @@
             <div class="btn-warning">Email hoặc username đã tồn tại</div>
           <% } %>
         </div>
-        <form method="POST" action="/registerComplete">
+        <form method="POST" action="/registerComplete" class = "cdmm">
           <div class="form-group"><label for="username">Username</label><input class="form-control item" type="text"
             id="username" name="username"></div>
           <div class="form-group"><label for="password">Mật Khẩu</label><input class="form-control item" type="password"
               id="password" name="password"></div>
           <div class="form-group"><label for="email">Email</label><input class="form-control item" type="email"
             id="email" name="email"></div>
+          <div class="form-group mr-5" style="display:inline-block"><input class="form-control item" type="radio"
+            id="male" name="sex" value="1" style="width: 1rem;"><label for="male" class="sexd">Nam</label></div>
+          <div class="form-group" style="display:inline-block"><input class="form-control item" type="radio"
+            id="female" name="sex" value="0" style="width: 1rem;"><label for="female" class="sexd">Nữ</label></div>
           <button class="btn btn-primary btn-block" type="submit">Đăng Ký</button>
         </form>
       </div>
