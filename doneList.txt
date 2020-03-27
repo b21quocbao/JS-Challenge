@@ -1,0 +1,39 @@
+- Framework:
+    + Nodejs v13.10.1
+    + Express v4.17.1
+    + Ejs
+- Database:
+    + MongoDB
+* Đã làm được
+    - User
+        + Có 3 role: non-user, user, admin
+        + Hiển thị được online/offline (dựa trên socket): user, admin
+        + Thay đổi được thông tin cá nhân: user, admin
+        + Thay đổi được ảnh đại diện: user, admin
+        + Khởi tạo được ảnh đại diện dựa trên giới tính
+        + Xem được trang cá nhân của người khác: user, admin
+    - Post
+        + Tạo được post không phải HTML và HTML: admin
+        + Tạo được comment: user, admin
+        + Xoá, edit được post: admin
+        + Thêm được ảnh bìa: admin
+    - Training
+        + Xoá, Edit, Add training: admin
+        + Xem được chi tiết bài viết (micromodal): non-user, user, admin
+        + Đăng ký tham gia được bài viết: user, admin
+    - Confession:
+        + Xoá, Edit được: admin
+        + Thêm Confession: user, admin
+* Chưa làm được
+    - User:
+        + Kiểm duyệt thành viên (kiểm soát có phải ng trong CLB ko)
+        + Đổi password
+        + Upload hình ảnh
+    - Post:
+        + Chèn hình ảnh
+        + Kiểm duyệt post ko phải admin
+    - Training: 
+        + Thời gian biểu
+    - Confession: 
+        + Kiểm duyệt confession
+        + Giao diện gọn lại
