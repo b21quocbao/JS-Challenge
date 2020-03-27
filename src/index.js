@@ -198,6 +198,7 @@ MongoClient.connect(process.env.MFLIX_DB_URI, {
         app.get("/logout", (req, res) => {
             if (req.cookies.login == 1) {
                 res.cookie("login", 0)
+                res.cookie("admin", 0)
                 db.collection("Users").updateOne({ "email": req.cookies.email }, { $set: { "socket": [] } })
                 res.redirect("/index")
             } else {
