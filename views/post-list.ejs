@@ -1,26 +1,4 @@
 <%- include("header"); -%>
-<style>
-  .btn-outline-primary:hover {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-  .btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-  .btn-outline-primary {
-    color: #007bff;
-    border-color: #007bff;
-  }
-  .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
-  }
-  .btn-outline-primary.focus, .btn-outline-primary:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
-  }
-</style>
    <main class="page blog-post-list">
         <section class="clean-block clean-blog-list dark">
             <div class="container">
@@ -67,9 +45,9 @@
                                 </form>
                                 <% if (admin == 1) {%>
                                   <form action="/post/edit/<%= i._id %>" method="GET" style="display: inline;">
-                                    <button class="btn btn-outline-warning btn-sm mr-1" type="submit">Edit Post</button>
+                                    <button class="btn btn-warning btn-sm mr-1" type="submit">Edit Post</button>
                                   </form>
-                                  <button class="btn btn-outline-danger btn-sm myButton2">Delete Post</button>
+                                  <button class="btn btn-danger btn-sm myButton2">Delete Post</button>
                                 <% } %>
                               </div>
                         </div>
