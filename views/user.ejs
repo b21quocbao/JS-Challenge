@@ -6,45 +6,45 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="media">
-                          <% let src = (profile.avatarFile == undefined ? "assets/img/avatars/1.jpg" : profile.avatarFile) %>
-                            <div><img class="rounded-circle mr-3" style="height: 50px; width: 50px;" src="<%= src %>"><p>@<%= profile.username %></p></div>
+                          <% let src = (user.avatarFile == undefined ? "assets/img/avatars/1.jpg" : user.avatarFile) %>
+                            <div><img class="rounded-circle mr-3" style="height: 50px; width: 50px;" src="<%= src %>"><p>@<%= user.username %></p></div>
                             <div class="media-body">
                                 <ul class="list-unstyled fa-ul">
-                                    <% if (profile.name) { %>
-                                      <li><i class="fas fa-user fa-li" style="font-size: 16px;"></i><%= profile.name %></li>
+                                    <% if (user.name) { %>
+                                      <li><i class="fas fa-user fa-li" style="font-size: 16px;"></i><%= user.name %></li>
                                     <% } %>
-                                    <% if (profile.sex) { %>
-                                      <% if (profile.sex == 1) { %>
+                                    <% if (user.sex) { %>
+                                      <% if (user.sex == 1) { %>
                                         <li><i class="fas fa-male fa-li"></i>Nam</li>
                                       <% } else { %>
                                         <li><i class="fas fa-female fa-li"></i>Nữ</li>
                                       <% } %>
                                     <% } %>
-                                    <% if (profile.role) { %>
-                                      <li><i class="fas fa-user-tag fa-li"></i><%= profile.role %></li>
+                                    <% if (user.role) { %>
+                                      <li><i class="fas fa-user-tag fa-li"></i><%= user.role %></li>
                                     <% } %>
-                                    <% if (profile.phone) { %>
-                                      <li><i class="fas fa-phone fa-li"></i><%= profile.phone %></li>
+                                    <% if (user.phone) { %>
+                                      <li><i class="fas fa-phone fa-li"></i><%= user.phone %></li>
                                     <% } %>
-                                    <li><i class="fas fa-envelope fa-li"></i><%= profile.email %></li>
+                                    <li><i class="fas fa-envelope fa-li"></i><%= user.email %></li>
                                     <br>
                                     <br>
                                     <% if (update) { %>
-                                      <li><a href="/InfoUpdate" style="color: blue;">Thay đổi thông tin cá nhân</a></li>
+                                      <li><a href="/users/update" style="color: blue;">Thay đổi thông tin cá nhân</a></li>
                                     <% } %>
                                 </ul>
                             </div>
                         </div>
                         <div></div>
                         <hr>
-                        <% if (profile.schoolEmail) { %>
-                          <p><i class="far fa-envelope"></i><%= profile.schoolEmail %><br>
+                        <% if (user.gen) { %>
+                          <p><i class="fa fas fa-ad"></i> Khoá K<%= user.gen %><br>
                         <% } %>
-                        <% if (profile.home) { %>
-                        <p><i class="fa fa-home fa-fw"></i><%= profile.home %><br>
+                        <% if (user.home) { %>
+                        <p><i class="fa fa-home fa-fw"></i><%= user.home %><br>
                         <% } %>
-                        <% if (profile.dob) { %>
-<span class="text-muted"><i class="fa fa-calendar fa-fw"></i>&nbsp;<%= profile.dob %></span></p>
+                        <% if (user.dob) { %>
+<span class="text-muted"><i class="fa fa-calendar fa-fw"></i>&nbsp;<%= user.dob %></span></p>
                         <% } %>
                     </div>
                 </div>

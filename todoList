@@ -1,5 +1,9 @@
-- Confession
-- Assign admin role to 
-    + read upload Confession
-- Add comment post, confession
-- Offline files
+- Move to OOP
+- Words API
+- Mail API
+- Cookies bcrypt
+- Find user
+    + Email
+    + Gen
+    + Name
+    + Gender

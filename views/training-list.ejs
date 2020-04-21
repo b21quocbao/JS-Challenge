@@ -48,7 +48,7 @@
                             <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                           </header>
                           <footer class="modal__footer">
-                            <form action="/training/delete/<%=i._id%>" method="POST" style="display: inline; margin-right: 10px;">
+                            <form action="/trainings/delete/<%=i._id%>" method="POST" style="display: inline; margin-right: 10px;">
                               <button class="modal__btn modal__btn-primary">Yes</button>
                             </form>
                             <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
@@ -73,33 +73,34 @@
                                 <li><i class="fas fa-link fa-li"></i><a href=""><%= i.link %></a></li>
                               </ul>
                               <% let ok = 0 %>
-                              <% if (profile && profile.training) { %>
-                              <% for (let k of profile.training) {%>
+                              <% try { if (user && user.trainings) { %>
+                              <% for (let k of user.trainings) {%>
                               <% if (k == i._id) {%>
                               <% ok = 1 %>
                               <% } %>
                               <% } %>
                               <% } %>
-                              <% if ( login == 1 && ( ok != 1 ) ) { %>
-                                <% let s = "/training/register/" + i._id %>
+                              <% } catch (e) {} %>
+                              <% try { if ( user && ( ok != 1 ) ) { %>
+                                <% let s = "/trainings/register/" + i._id %>
                                 <form action="<%= s %>" method="POST" style="display: inline;" class="modiItem">
                                   <button class="btn btn-outline-success btn-sm mr-1" type="submit">Đăng ký tham gia</button>
                                 </form>
-                              <% } else if (login == 1) { %>
-                                <button class="btn btn-success btn-sm mr-1" type="button"><i class="fas fa-check"></i>Đã đăng ký tham gia</button>
                               <% } else { %>
+                                <button class="btn btn-success btn-sm mr-1" type="button"><i class="fas fa-check"></i>Đã đăng ký tham gia</button>
+                              <% } } catch (e) { %>
                                 <form action="/login" method="GET" style="display: inline;" class="modiItem">
                                   <button class="btn btn-outline-success btn-sm mr-1" type="submit">Đăng ký tham gia</button>
                                 </form>
                               <% } %>
                               <button class="btn btn-outline-primary btn-sm mr-1 myButton">Chi tiết</button>
-                              <% if (admin == 1) { %>
-                                <% let sedit = "/training/edit/" + i._id %>
+                              <% try { if (user.training) { %>
+                                <% let sedit = "/trainings/edit/" + i._id %>
                                 <form action="<%= sedit %>" style="display: inline;"  method="GET">
                                   <button class="btn btn-warning btn-sm mr-1" type="submit">Chỉnh sửa bài viết</button>
                                 </form>
                                   <button class="btn btn-danger btn-sm myButton1">Xoá bài viết</button>
-                              <% } %>
+                              <% } } catch (e) {} %>
                             </div>
                         </div>
                     </div>
@@ -109,11 +110,11 @@
                     <br>
                     <br>
                     <br>
-                    <% if (admin == 1) { %>
-                    <form action="addTraining">
-                      <button class="btn btn-primary btn-lg" type="submit" href="addTraining">Thêm training</button>
+                    <% try { if (user.training) { %>
+                    <form action="/trainings/add">
+                      <button class="btn btn-primary btn-lg" type="submit" href="#">Thêm training</button>
                     </form>
-                    <% } %>
+                    <% } } catch (e) {} %>
                 </div>
             </div>
         </section>

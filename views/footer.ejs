@@ -1,6 +1,6 @@
     <footer class="page-footer dark">
       <section class="clean-block about-us" style="padding:0">
-        <% if (login == 1) { %>
+        <% if (typeof user !== 'undefined' && user !== null) { %>
         <div class="container" data-aos="fade">
             <div class="block-heading" style="padding:0">
                 <h2 class="text-info">Thành viên gần đây</h2>
@@ -12,7 +12,7 @@
                     <div class="user-container"><a class="user-avatar userdmml" href="#"><img class="rounded-circle img-fluid" src="<%= src %>" width="48" height="48" alt="Profile of Mark Smith Peterson"></a>
                         
                         <p class="user-name"><a href="#" class="userlinkdm userdmmle" style="color: black;" onmouseover="this.style.color='blue'" onmouseout="this.style.color='black'"><%= i.username %></a><span>
-                        <% if (i.socket !== undefined && i.socket.length) { %>
+                        <% if (typeof i.socket !== 'undefined' && i.socket !== null) { %>
                           Online</span></p>
                           <a class="user-online"> </a>
                         <% } else { %>
@@ -32,9 +32,8 @@
     </footer>
     <script>
       for (let i of document.getElementsByClassName("userdmmle"))
-      i.setAttribute("href", "/user/" + i.textContent)
+      i.setAttribute("href", "/users/" + i.textContent)
     </script>
-    <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/baguetteBox.min.js"></script>
     <script src="assets/js/smoothproducts.min.js"></script>

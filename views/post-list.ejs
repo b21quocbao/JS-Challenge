@@ -23,7 +23,7 @@
                             <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                           </header>
                           <footer class="modal__footer">
-                            <form action="/post/delete/<%=i._id%>" method="POST" style="display: inline; margin-right: 10px;">
+                            <form action="/posts/delete/<%=i._id%>" method="POST" style="display: inline; margin-right: 10px;">
                               <button class="modal__btn modal__btn-primary">Yes</button>
                             </form>
                             <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
@@ -38,15 +38,15 @@
                                 <h3><%= i.name %></h3>
                                 <div class="info"><span class="text-muted"><%= i.date %> by&nbsp;<a href="#"><%= i.createdBy %></a></span></div>
                                 <%- i.brief %><br><br>
-                                <form class="dmmImg3" action="/post/<%= i._id %>" method="GET" style="display: inline;">
+                                <form class="dmmImg3" action="/posts/<%= i._id %>" method="GET" style="display: inline;">
                                   <button class="btn btn-outline-primary btn-sm mr-1" type="submit">Read More</button>
                                 </form>
-                                <% if (admin == 1) {%>
-                                  <form action="/post/edit/<%= i._id %>" method="GET" style="display: inline;">
+                                <% try { if (typeof user.post !== 'undefined' && user.post !== null) {%>
+                                  <form action="/posts/edit/<%= i._id %>" method="GET" style="display: inline;">
                                     <button class="btn btn-warning btn-sm mr-1" type="submit">Edit Post</button>
                                   </form>
                                   <button class="btn btn-danger btn-sm myButton2">Delete Post</button>
-                                <% } %>
+                                <% } } catch (e) {} %>
                               </div>
                         </div>
                     </div>
@@ -56,11 +56,11 @@
                 <br>
                 <br>
                 <br>
-                <% if (admin == 1) { %>
-                  <form action="addPost">
+                <% try { if (typeof user.post !== 'undefined' && user.post !== null) { %>
+                  <form action="add">
                     <button class="btn btn-primary btn-lg" type="submit" href="addPost">Thêm post</button>
                   </form>
-                <% } %>
+                <% } } catch (e) {} %>
             </div>
         </section>
     </main>

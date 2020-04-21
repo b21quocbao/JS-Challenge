@@ -5,34 +5,34 @@
       <div class="block-heading">
         <h2 class="text-info">Edit training</h2>
       </div>
-      <% let x = "/training/update/" + val._id %>
+      <% let x = "/trainings/update/" + training._id %>
       <form method="POST" action="<%= x %>">
         <div class="form-group"><label for="name">Training name</label><input class="form-control item" type="text" id="name"
-            name="name" value="<%= val.name %>"></div>
+            name="name" value="<%= training.name %>"></div>
         <div class="form-group"><label for="mentor">Mentor</label><input class="form-control item" type="text" id="mentor"
-            name="mentor" value="<%= val.mentor %>"></div>
+            name="mentor" value="<%= training.mentor %>"></div>
         <div class="form-group"><label for="phone">Phone</label><input class="form-control item" type="tel" id="phone"
-            name="phone" value="<%= val.phone %>"></div>
+            name="phone" value="<%= training.phone %>"></div>
         <div class="form-group"><label for="room">Room</label><input class="form-control item" type="text" id="room"
-            name="room" value="<%= val.room %>"></div>
+            name="room" value="<%= training.room %>"></div>
         <div class="form-group"><label for="startDate">Start Date</label><input class="form-control item" type="date" id="startDate"
-            name="startDate" value="<%= val.startDate %>"></div>
+            name="startDate" value="<%= training.startDate %>"></div>
         <div class="form-group"><label for="endDate">End Date</label><input class="form-control item" type="date" id="endDate"
-            name="endDate" value="<%= val.endDate %>"></div>
+            name="endDate" value="<%= training.endDate %>"></div>
         <div class="form-group"><label for="meet">Google meet link</label><input class="form-control item" type="url" id="meet"
-            name="meet" value="<%= val.meet %>"></div>
+            name="meet" value="<%= training.meet %>"></div>
         <div class="form-group"><label for="link">Material link</label><input class="form-control item" type="url" id="link"
-            name="link" value="<%= val.link %>"></div>
+            name="link" value="<%= training.link %>"></div>
         <div class="form-group"><label for="imgPath">Link Ảnh</label><input class="form-control item" type="text" id="imgPath"
-            name="imgPath" value="<%= val.imgPath %>"></div>
+            name="imgPath" value="<%= training.imgPath %>"></div>
         <div class="form-group"><label for="brief">Giới thiệu</label><textarea class="form-control item" type="text" id="brief"
-            name="brief"><%= val.brief %></textarea></div>
+            name="brief"><%= training.brief %></textarea></div>
         <div class="form-group"><label for="popular">Độ phổ biến</label><textarea class="form-control item" type="text" id="popular"
-            name="popular"><%= val.popular %></textarea></div>
+            name="popular"><%= training.popular %></textarea></div>
         <div class="form-group"><label for="requirement">Yêu cầu</label><textarea class="form-control item" type="text" id="requirement"
-            name="requirement1"><%= val.requirement1 %></textarea></div>
+            name="requirement1"><%= training.requirement1 %></textarea></div>
         <div class="form-group"><label for="syllabus">Syllabus</label><textarea class="form-control item" type="text" id="syllabus"
-            name="syllabus"><%= val.syllabus %></textarea></div>
+            name="syllabus"><%= training.syllabus %></textarea></div>
         </br>
         <button class="btn btn-primary btn-block" type="submit">Edit training</button>
       </form>

@@ -8,7 +8,7 @@
                         <div class="alert alert-info absolue center" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span>Profile save with success</span></div>
                     </div>
                 </div>
-                <form action="/InfoUpdated" method="POST">
+                <form action="/users/update" method="POST">
                     <div class="form-row profile-row">
                         <div class="col-md-4 relative">
                             <div class="avatar">
@@ -22,22 +22,22 @@
                             <hr>
                               <div class="form-row">
                                   <div class="col-sm-12 col-md-6">
-                                      <div class="form-group"><label>Tên</label><input class="form-control" type="text" name="name"></div>
+                                      <div class="form-group"><label>Tên</label><input class="form-control" type="text" name="name" value="<%= user.name %>"></div>
                                   </div>
                                   <div class="col-sm-12 col-md-6">
-                                      <div class="form-group"><label>Ban</label><input class="form-control" type="text" name="role"></div>
+                                      <div class="form-group"><label>Ban</label><input class="form-control" type="text" name="role" value="<%= user.role %>"></div>
                                   </div>
-                                  <div class="col"><label>Số điện thoại</label><input class="form-control" type="text" name="phone"></div>
+                                  <div class="col"><label>Số điện thoại</label><input class="form-control" type="text" name="phone" value="<%= user.phone %>"></div>
                                   <div class="col-sm-12 col-md-6">
-                                      <div class="form-group"><label>School Email </label><input class="form-control" type="email" autocomplete="off" name="schoolEmail"></div>
+                                      <div class="form-group"><label>Khoá (bằng số) </label><input class="form-control" type="number" autocomplete="off" name="gen" value="<%= user.gen %>"></div>
                                   </div>
                               </div>
                               <div class="form-row">
                                   <div class="col-sm-12 col-md-6">
-                                      <div class="form-group"><label>Ngày sinh</label><input class="form-control" type="date" name="dob" autocomplete="off"></div>
+                                      <div class="form-group"><label>Ngày sinh</label><input class="form-control" type="date" name="dob" autocomplete="off" value="<%= user.dob %>"></div>
                                   </div>
                                   <div class="col-sm-12 col-md-6">
-                                      <div class="form-group"><label>Nơi ở&nbsp;</label><input class="form-control" type="text" name="home" autocomplete="off"></div>
+                                      <div class="form-group"><label>Nơi ở&nbsp;</label><input class="form-control" type="text" name="home" autocomplete="off" value="<%= user.home %>"></div>
                                   </div>
                               </div>
                               <hr>

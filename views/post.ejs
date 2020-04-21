@@ -4,27 +4,33 @@
   <section class="clean-block clean-post dark">
     <div class="container">
       <div class="block-content">
-        <div class="post-image dmmImg4" style="background-image:url(&quot;<%= i.imgPath %>&quot;);"></div>
+        <div class="post-image dmmImg4" style="background-image:url(&quot;<%= post.imgPath %>&quot;);"></div>
         <div class="post-body">
-          <h3><%= i.name %></h3>
-          <div class="post-info"><span>By <%= i.createdBy %></span><span><%= i.date %></span></div>
-          <%- i.post %>
+          <h3><%= post.name %></h3>
+          <div class="post-info"><span>By <%= post.createdBy %></span><span><%= post.date %></span></div>
+          <%- post.post %>
         </div>
       </div>
-      <div class="card-footer">
+      
+      <div class="card-footer" id="postAbc">
         <div class="media">
-          <% if (login == 1) { %>
-          <form method="POST" action="/addComment" style="width:100%">
+          <% if (typeof user !== 'undefined' && user !== null) { %>
+          <script>
+              var user = <%- JSON.stringify(user) %>;
+          </script>
+          <% let s = "/posts/" +  post._id + "/addComment/1"  %>
+          <form method="POST" action="<%= s %>" style="width:100%" id="postCommentForm">
             <div class="form-group" style="width:100%"><label for="text">Thêm comment</label><textarea class="form-control item" type="text"
                 id="text" name="text" style="width:100%; height: 8rem; min-width: 0;"></textarea></div>
-            <input type="text" name="postId" value="<%= i._id %>" style="display: none;">
+            <input type="text" name="postId" value="<%= post._id %>" style="display: none;">
             <button class="btn btn-primary btn-block" type="submit">Tạo comment</button>
             <br>
           </form>
           <% } %>
+          
         </div>
-        <% if (i.comments) { %>
-        <% for (let j of i.comments) { %>
+        <% if (post.comments) { %>
+        <% for (let j of post.comments) { %>
         <div class="media">
           <% let x = (j.avatarFile ? j.avatarFile : 'assets/img/avatars/1.jpg') %>
           <div><img class="rounded-circle mr-3" style="height: 25px; width: 25px;" src="<%= x %>"></div>
@@ -39,4 +45,29 @@
     
   </section>
 </main>
+<script>
+  $("#postCommentForm").submit(function(e) {
+
+  e.preventDefault();
+
+  var form = $(this);
+  var url = form.attr('action');
+  var value = $('#text').val()
+    
+  $.ajax({
+        type: "POST",
+        url: url,
+        data: form.serialize(),
+      }).then(function (response) {
+        var s1 = "<div class='media'>"
+        var s2 = "<div><img class='rounded-circle mr-3' style='height: 25px; width: 25px;' src=" + user.avatarFile + "></div>"
+        var s3 = "<div class='media-body'><a href='#'>" + user.username + "</a><p>" + value + "</p>"
+        var s4 = "</div></div>"
+        var s = s1 + s2 + s3 + s4
+        $('#postAbc').append(s)
+      }).catch(function (err) {
+        console.error(err)
+      });
+  });
+</script>
 <%- include("footer"); -%>

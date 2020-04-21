@@ -20,11 +20,11 @@
         <div class="block-heading">
           <h2 class="text-info">Đăng Ký</h2>
           <p>Bạn đã có tài khoản? <a href="login">Đăng nhập</a></p>
-          <% if (registerFail) {%>
-            <div class="btn-warning">Email hoặc username đã tồn tại</div>
-          <% } %>
+          <% try { error %>
+            <div class="btn-warning col-md-5" style="margin: auto; margin-top: .5rem; padding: .5rem;"><%= error %></div>
+          <% } catch (e) {} %>
         </div>
-        <form method="POST" action="/registerComplete" class = "cdmm">
+        <form method="POST" action="/users/register" class = "cdmm">
           <div class="form-group"><label for="username">Username</label><input class="form-control item" type="text"
             id="username" name="username"></div>
           <div class="form-group"><label for="password">Mật Khẩu</label><input class="form-control item" type="password"

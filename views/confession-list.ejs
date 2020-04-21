@@ -1,0 +1,74 @@
+<%- include("header"); -%>
+<main class="page blog-post">
+  <section class="clean-block clean-post dark">
+    <script>
+      var user = <%- JSON.stringify(user) %>;
+    </script>
+    <% for (let j in confessions) { %>
+    <% let i = confessions[j] %>
+    <div class="container mb-5">
+      <div class="block-content">
+        <div class="post-body">
+          <p style="font-size: 30px;">Confession #<%= j %></p>
+          <p style="font-size: 20px;"><%= i.text %></p>
+        </div>
+      </div>
+     
+      <div class="card-footer" class="postAbc">
+        <div class="media">
+          <% let s = "/confessions/" +  i._id + "/addComment/0"  %>
+          <form method="POST" action="<%= s %>" style="width:100%" class="postCommentForm">
+            <div class="form-group"><label for="text">Thêm comment</label><textarea class="form-control item commentText" type="text"
+                name="text" style="width:100%"></textarea></div>
+            <button class="btn btn-primary btn-block" type="submit">Tạo comment</button>
+            <br>
+          </form>
+        </div>
+        <% if (i.comments) { %>
+          <% for (let j of i.comments) { %>
+          <div class="media">
+            <% let x = (j.avatarFile ? j.avatarFile : 'assets/img/avatars/1.jpg') %>
+            <div><img class="rounded-circle mr-3" style="height: 25px; width: 25px;" src="<%= x %>"></div>
+            <div class="media-body"><a href="#"><%= j.username %></a>
+              <p><%= j.text %></p>
+            </div>
+          </div>
+        <% } %>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+    <% if (typeof user !== undefined && user !== null) { %>
+      <div class="container mt-3">
+      <form action="/confessions/add">
+        <button class="btn btn-primary btn-lg" type="submit">Thêm confession</button>
+      </form>
+    </div>
+    <% } %>
+  </section>
+</main>
+<script>
+  $(".postCommentForm").submit(function(e) {
+    e.preventDefault();
+
+    var form = $(this);
+    var url = form.attr('action');
+    var value = $(this).find(".commentText").val()
+      
+    $.ajax({
+          type: "POST",
+          url: url,
+          data: form.serialize(),
+        }).then(function (response) {
+          var s1 = "<div class='media'>"
+          var s2 = "<div><img class='rounded-circle mr-3' style='height: 25px; width: 25px;' src=" + user.avatarFile + "></div>"
+          var s3 = "<div class='media-body'><a href='#'>" + user.username + "</a><p>" + value + "</p>"
+          var s4 = "</div></div>"
+          var s = s1 + s2 + s3 + s4
+          $(form.parent().parent()).append(s)
+        }).catch(function (err) {
+          console.error(err)
+        });
+  });
+</script>
+<%- include("footer"); -%>
