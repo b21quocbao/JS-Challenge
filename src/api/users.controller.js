@@ -2,7 +2,16 @@ import { ObjectId } from "bson"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import UsersDAO from "../dao/usersDAO"
+import PreRegistersDAO from "../dao/preRegistersDAO";
 import cookie from "cookie"
+import nodemailer from "nodemailer"
+let transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+       user: 'jschallengeteam1@gmail.com',
+       pass: 'baokienthong'
+    }
+});
 
 const hashPassword = async password => await bcrypt.hash(password, await bcrypt.genSalt(10))
 
@@ -39,43 +48,77 @@ export class User {
 }
 
 export default class UsersController {
-    static async register(req, res) {
+    static async preRegister(req, res) {
         try {
             req.body.avatarFile = "assets/img/avatars/" + req.body.sex + ".jpg"
             const userFromBody = req.body
             
-            let errors = {}
             if (userFromBody && userFromBody.password.length < 8) {
-                res.render("registration", { error: "Your password must be at least 8 characters." })
+                res.render("register", { error: "Your password must be at least 8 characters." })
                 return
             }
             if (userFromBody && userFromBody.username.length < 3) {
-                res.render("registration", { error: "You must specify a username of at least 3 characters." })
+                res.render("register", { error: "You must specify a username of at least 3 characters." })
                 return
             }
-            console.log(userFromBody);
+            if (userFromBody && !userFromBody.email.includes("@fpt.edu.vn")) {
+                res.render("register", { error: "You must enter an email from FPT University" })
+                return
+            }
             
             const userInfo = {
                 ...userFromBody,
                 password: await hashPassword(userFromBody.password),
             }
-            console.log(userInfo);
-        
-            const insertResult = await UsersDAO.addUser(userInfo)
-            if (!insertResult.success) {
-                res.render("registration", {error: insertResult.error} )
+            if (await UsersDAO.getUserByEmail(userFromBody.email)) {
+                res.render("register", {error: "Email is already exists"} )
                 return
             }
+            if (await UsersDAO.getUserByUserName(userFromBody.username)) {
+                res.render("register", {error: "Username is already exists" } )
+                return
+            }
+            let otp = await PreRegistersDAO.insertPreRegister(userInfo)
+            const message = {
+                from: 'jschallengeteam1@gmail.com', 
+                to: userFromBody.email,        
+                subject: 'Your OTP for your register',
+                text: 'Chào bạn\nCảm ơn bạn đã đến với CLB JS của chúng mình\nĐây là mã OTP của bạn: ' + otp.toString()
+            };
+            transport.sendMail(message, function(err, info) {
+                if (err) {} else {}
+            });
+            res.redirect("/users/otp")
+        } catch (e) {
+            console.error(e)
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static async register(req, res) {
+        try {
+            const userInfo = await PreRegistersDAO.getUserByOTP(parseInt(req.body.otp))
+            if (!userInfo) {
+                res.render("register", {error: "Wrong or expired OTP. Please register again"} )
+                return
+            }
+
+            const insertResult = await UsersDAO.addUser(userInfo.user)
+            if (!insertResult.success) {
+                res.render("register", {error: insertResult.error} )
+                return
+            }
+
             const userFromDB = await UsersDAO.getUserByUserName(userInfo.username)
             if (!userFromDB) {
-                res.render("registration", {error: "Internal error, please try again later"} )
+                res.render("register", {error: "Internal error, please try again later"} )
                 return
             }
         
             const user = new User(userFromDB)
             res.cookie("token", user.encoded())
 
-            res.redirect("/users/profile")
+            res.redirect("/users/update")
         } catch (e) {
             res.status(500).json({ error: e })
         }
@@ -206,7 +249,7 @@ export default class UsersController {
     }
 
     static async getRegister(req, res) {
-        res.render("registration")
+        res.render("register")
     }
 
     static async getUpdate(req, res) {
@@ -226,5 +269,9 @@ export default class UsersController {
             console.error("Error at get info user", e)
             res.redirect("/")
         }
+    }
+    
+    static async getOTP (req, res) {
+        res.render("otp")
     }
 }

@@ -23,6 +23,7 @@
     "micromodal": "^0.4.6",
     "mongodb": "^3.5.5",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.4.6",
     "path": "^0.12.7",
     "socket.io": "^2.3.0"
   },

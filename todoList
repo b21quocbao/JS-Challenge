@@ -1,9 +1,12 @@
-- Move to OOP
 - Words API
 - Mail API
-- Cookies bcrypt
 - Find user
     + Email
     + Gen
     + Name
     + Gender
+- User Online Slide
+- Request user permission
+- Send Confession
+- Check Confession
+- Remember me login

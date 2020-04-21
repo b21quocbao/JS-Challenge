@@ -6,6 +6,7 @@ import UsersDAO from "./dao/usersDAO"
 import TrainingsDAO from "./dao/trainingsDAO"
 import CommentsDAO from "./dao/commentsDAO"
 import CfsDAO from "./dao/confessionsDAO"
+import PreRegistersDAO from "./dao/preRegistersDAO"
 import { User } from "./api/users.controller";
 
 const port = process.env.PORT || 3000
@@ -30,6 +31,7 @@ MongoClient.connect(process.env.DB_URI, {
         await CfsDAO.injectDB(client)
         await TrainingsDAO.injectDB(client)
         await CommentsDAO.injectDB(client)
+        await PreRegistersDAO.injectDB(client)
 
         io.on('connection', async socket => {
             socket.on('login', async function() {

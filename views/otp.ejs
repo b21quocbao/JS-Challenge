@@ -1,0 +1,16 @@
+<%- include("header"); -%>
+
+    <main class="page login-page">
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                </div>
+
+                <form method="POST" action="/users/otp">
+                    <div class="form-group"><label for="email">Hãy nhập mã OTP mà bạn vừa mới nhận được qua email vào đây. Mã OTP sẽ tự động vô hiệu hoá trong 5 phút.</label><input class="form-control item" type="number" id="otp" name="otp"></div>
+                    <button class="btn btn-primary btn-block" type="submit">Enter</button></form>
+            </div>
+        </section>
+    </main>
+    
+<%- include("footer"); -%>
