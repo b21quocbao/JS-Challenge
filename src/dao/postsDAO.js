@@ -33,8 +33,10 @@ export default class PostsDAO {
      */
     static async updatePost(post, userId, postId = null) {
         try {
-            if (!post.userId) post.userId = ObjectId(userId)
-            if (!post.date) post.date = getTime()
+            if (postId === null) {
+                post.userId = ObjectId(userId)
+                post.date = getTime()
+            }
             return await posts.updateOne(
                 { "_id": ObjectId(postId) },
                 { $set: post },
