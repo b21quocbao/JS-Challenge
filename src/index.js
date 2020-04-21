@@ -42,6 +42,7 @@ MongoClient.connect(process.env.DB_URI, {
                 }
             })
             socket.on('disconnect', async function() {
+                
                 var cookies = cookie.parse(socket.handshake.headers.cookie);
                 let { username, error } = await User.decoded(cookies.token)
 

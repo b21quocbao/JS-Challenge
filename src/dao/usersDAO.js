@@ -178,7 +178,7 @@ export default class UsersDAO {
         try {
             return await users.updateOne(
                 { "username": username },
-                { set: { "socket": null } }
+                { $set: { "socket": null } }
             )
         } catch (e) {
             console.error(`Unable to remove socket: ${e}`)
