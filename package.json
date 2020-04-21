@@ -4,7 +4,7 @@
   "description": "JS-challenge Web",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r esm ./index.js"
+    "start": "node -r esm ./index.js"
   },
   "dependencies": {
     "assert": "^2.0.0",
