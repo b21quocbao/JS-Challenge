@@ -93,7 +93,6 @@ export default class TrainingsController {
 
             let user = await usersDAO.getUserByUserName(username)
             if (user.training) {
-                req.body.requirement = '<ul><li>' + req.body.requirement1.replace("\n", "</li><li>") + '</li></ul>';
                 await trainingsDAO.updateTraining(req.body, user._id, req.params.id)
             }
             res.redirect("/trainings/list")
@@ -114,7 +113,6 @@ export default class TrainingsController {
 
             let user = await usersDAO.getUserByUserName(username)
             if (user.training) {
-                req.body.requirement = '<ul><li>' + req.body.requirement1.replace("\n", "</li><li>") + '</li></ul>';
                 await trainingsDAO.updateTraining(req.body, user._id)
             }
             res.redirect("/trainings/list")
