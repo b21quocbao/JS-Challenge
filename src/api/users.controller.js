@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import UsersDAO from "../dao/usersDAO"
 import PreRegistersDAO from "../dao/preRegistersDAO";
-import cookie from "cookie"
+import formidable from "formidable"
 import nodemailer from "nodemailer"
 let transport = nodemailer.createTransport({
     service: "gmail",
@@ -202,6 +202,13 @@ export default class UsersController {
                 res.redirect("/")
                 return
             }
+            let form = new formidable.IncomingForm()
+            let s = __dirname.slice(0, __dirname.length - 7) + "public"
+            
+            form.parse(req)
+            form.on('fileBegin', function (name, file){
+                file.path = s + '/uploads/' + userFromHeader.username + "-" + file.name;
+            });
 
             await UsersDAO.editUser(userFromHeader.username,req.body)
 

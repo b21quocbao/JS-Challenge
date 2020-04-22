@@ -30,11 +30,6 @@ app.use("/confessions", confessions)
 app.use("/", others)
 
 // Register static folders
-app.use('/user', express.static('public'))
-app.use('/post', express.static('public'))
-app.use('/training/edit', express.static('public'))
-app.use('/post/edit', express.static('public'))
-///////////////////////////////////////
 app.use('/', express.static('public'))
 app.use('/posts/id', express.static('public'))
 app.use('/posts', express.static('public'))
