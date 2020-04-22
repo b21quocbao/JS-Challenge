@@ -27,26 +27,32 @@
                                       <li><i class="fas fa-phone fa-li"></i><%= user.phone %></li>
                                     <% } %>
                                     <li><i class="fas fa-envelope fa-li"></i><%= user.email %></li>
-                                    <br>
-                                    <br>
-                                    <% if (update) { %>
-                                      <li><a href="/users/update" style="color: blue;">Thay đổi thông tin cá nhân</a></li>
-                                      <li><a href="/users/request" style="color: red;">Yêu cầu quyền quản trị</a></li>
-                                    <% } %>
                                 </ul>
                             </div>
                         </div>
                         <div></div>
                         <hr>
-                        <% if (user.gen) { %>
-                          <p><i class="fa fas fa-ad"></i> Khoá K<%= user.gen %><br>
-                        <% } %>
-                        <% if (user.home) { %>
-                        <p><i class="fa fa-home fa-fw"></i><%= user.home %><br>
-                        <% } %>
-                        <% if (user.dob) { %>
-<span class="text-muted"><i class="fa fa-calendar fa-fw"></i>&nbsp;<%= user.dob %></span></p>
-                        <% } %>
+                        <form action="/users/request" method="POST">
+                          <% if (typeof user.post === 'undefined' || !user.post) { %>
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox1" name="post"><label class="form-check-label" for="checkbox1">Thêm, chỉnh sửa bài viết</label></div>
+                          <% } %>
+                          <% if (typeof user.training === 'undefined' || !user.training) { %>
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox2" name="training"><label class="form-check-label" for="checkbox2">Thêm, chỉnh sửa training</label></div>
+                          <% } %>
+                          <% if (typeof user.cfs === 'undefined' || !user.cfs) { %>
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox3" name="cfs"><label class="form-check-label" for="checkbox3">Phê duyệt confessions</label></div>
+                          <% } %>
+                          <% if (typeof user.permission === 'undefined' || !user.permission) { %>
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox4" name="permission"><label class="form-check-label" for="checkbox4">Phê duyệt các yêu cầu quyền quản trị</label></div>
+                          <% } %>
+                          <% if (typeof user.admin === 'undefined' || !user.admin) { %>
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox5" name="admin"><label class="form-check-label" for="checkbox5">Quản lý các users</label></div>
+                          <br>
+                          <% } %>
+                          <div class="form-row">
+                            <div class="col-md-12 content-right"><button class="btn btn-warning form-btn mr-1" type="submit">Request</button></div>
+                          </div>
+                        </form>
                     </div>
                 </div>
             </div>

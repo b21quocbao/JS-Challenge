@@ -27,14 +27,14 @@ export default class PostsDAO {
         - "date", created date
         - "userId", name of user created post
 
-     * @param {Object} userId - Id of the user who update the post
+     * @param {Object} username - username of the user who update the post
      * @param {Object} post - Object containing post's information 
      * @returns {DAOResponse} Returns an object with either DB response or "error"
      */
-    static async updatePost(post, userId, postId = null) {
+    static async updatePost(post, username, postId = null) {
         try {
             if (postId === null) {
-                post.userId = ObjectId(userId)
+                post.username = username
                 post.date = getTime()
             }
             return await posts.updateOne(

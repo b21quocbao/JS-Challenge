@@ -14,6 +14,8 @@ router.route("/profile").get(UsersCtrl.getProfile)
 router.route("/update").get(UsersCtrl.getUpdate)
 router.route("/update").post(UsersCtrl.update)
 router.route("/otp").get(UsersCtrl.getOTP)
+router.route("/request").get(UsersCtrl.getRequest)
+// router.route("/request").post(UsersCtrl.request)
 router.route("/:username").get(UsersCtrl.getInfo)
 
 export default router

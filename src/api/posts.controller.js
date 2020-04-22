@@ -98,12 +98,8 @@ export default class PostsController {
                 res.redirect("/posts/list")
                 return
             }
-
-            if (!req.body.html)
-            req.body.post = '<p>' + req.body.post.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + '</p>';
-            delete req.body.html
-
-            await postsDAO.updatePost(req.body, user._id, req.params.id)
+            
+            await postsDAO.updatePost(req.body, user.username, req.params.id)
 
             res.redirect("/posts/list")
         } catch (e) {
@@ -126,12 +122,8 @@ export default class PostsController {
                 res.redirect("/posts/list")
                 return
             }
-            
-            if (!req.body.html)
-            req.body.post = '<p>' + req.body.post.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + '</p>';
-            delete req.body.html
 
-            await postsDAO.updatePost(req.body, user._id)
+            await postsDAO.updatePost(req.body, user.username)
 
             res.redirect("/posts/list")
         } catch (e) {

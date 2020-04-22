@@ -1,5 +1,6 @@
 - Words API
-- Mail API
+     + https://www.tiny.cloud/features
+- Upload image
 - Find user
     + Email
     + Gen
@@ -7,6 +8,7 @@
     + Gender
 - User Online Slide
 - Request user permission
+- Check user permission
 - Send Confession
 - Check Confession
-- Remember me login
+- Training calender

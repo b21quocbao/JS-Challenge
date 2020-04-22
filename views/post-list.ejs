@@ -36,7 +36,7 @@
                             <div class="col-lg-5"><img class="rounded img-fluid dmmImg2" src="<%= i.imgPath %>"></div>
                             <div class="col-lg-7">
                                 <h3><%= i.name %></h3>
-                                <div class="info"><span class="text-muted"><%= i.date %> by&nbsp;<a href="#"><%= i.createdBy %></a></span></div>
+                                <div class="info"><span class="text-muted"><%= i.date %> by&nbsp;<a href="#"><%= i.username %></a></span></div>
                                 <%- i.brief %><br><br>
                                 <form class="dmmImg3" action="/posts/<%= i._id %>" method="GET" style="display: inline;">
                                   <button class="btn btn-outline-primary btn-sm mr-1" type="submit">Read More</button>

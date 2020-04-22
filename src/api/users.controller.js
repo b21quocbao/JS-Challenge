@@ -28,7 +28,13 @@ export class User {
     async comparePassword(plainText) {
         return await bcrypt.compare(plainText, this.password)
     }
-    encoded() {
+    encoded(long = false) {
+        let l = 0
+        if (long) {
+            l = 60 * 60 * 24 * 30
+        } else {
+            l = 60 * 30
+        }
         return jwt.sign(
             {
             exp: Math.floor(Date.now() / 1000) + 60 * 60 * 4,
@@ -147,13 +153,13 @@ export default class UsersController {
                 res.render("login", { error: "Make sure your password is correct." })
                 return
             }
-            const loginResponse = await UsersDAO.loginUser(user.username, user.encoded())
+            const loginResponse = await UsersDAO.loginUser(user.username, user.encoded(req.body.remember))
             if (!loginResponse.success) {
                 res.render("login", { error: loginResponse.error })
                 return
             }
-
-            res.cookie("token", user.encoded())
+            
+            res.cookie("token", user.encoded(req.body.remember))
 
             res.redirect("/")
         } catch (e) {
@@ -225,6 +231,7 @@ export default class UsersController {
         }
     }
 
+
     static async getInfo(req, res) {
         try {
             const userJwt = req.cookies.token
@@ -273,5 +280,26 @@ export default class UsersController {
     
     static async getOTP (req, res) {
         res.render("otp")
+    }
+
+    
+    static async getRequest(req, res) {
+        try {
+            const userJwt = req.cookies.token
+            const userFromHeader = await User.decoded(userJwt)
+            var { error } = userFromHeader
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            let result = await UsersDAO.getUserByUserName(userFromHeader.username)
+            let status = await UsersDAO.getUsers()
+            // Update: Update own information only
+            
+            res.render("request", { user: result, status: status })
+        } catch (e) {
+            console.error("Error at get info user", e)
+            res.redirect("/")
+        }
     }
 }
