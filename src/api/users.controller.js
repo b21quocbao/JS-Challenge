@@ -94,7 +94,7 @@ export default class UsersController {
             transport.sendMail(message, function(err, info) {
                 if (err) {} else {}
             });
-            res.redirect("/users/otp")
+            res.redirect("/users/otp/register")
         } catch (e) {
             console.error(e)
             res.status(500).json({ error: e })
@@ -279,9 +279,8 @@ export default class UsersController {
     }
     
     static async getOTP (req, res) {
-        res.render("otp")
+        res.render("otp", { link: req.params.link })
     }
-
     
     static async getRequest(req, res) {
         try {
@@ -299,6 +298,90 @@ export default class UsersController {
             res.render("request", { user: result, status: status })
         } catch (e) {
             console.error("Error at get info user", e)
+            res.redirect("/")
+        }
+    }
+
+    static async getForgot(req, res) {
+        res.render("forgot")
+    }
+
+    static async forgotEmail(req, res) {
+        try {
+            let user = await UsersDAO.getUserByEmail(req.body.email)
+            if (typeof user === 'undefined' || !user) {
+                res.render("forgot", { error: "Email bạn nhập không tồn tại" })
+                return
+            }
+            let otp = await PreRegistersDAO.insertPreRegister(user)
+            const message = {
+                from: 'jschallengeteam1@gmail.com', 
+                to: req.body.email,        
+                subject: 'Your OTP for your register',
+                text: 'Chào bạn\nCảm ơn bạn đã đến với CLB JS của chúng mình\nĐây là mã OTP của bạn: ' + otp.toString()
+            };
+            transport.sendMail(message, function(err, info) {
+                if (err) {} else {}
+            });
+            res.redirect("/users/otp/forgot")
+        } catch (e) {
+            console.error(e)
+            res.render("forgot", { error: e })
+        }
+    }
+
+    static async forgotPassword(req, res) {
+        try {
+            let userData = await PreRegistersDAO.getUserByOTP(parseInt(req.body.otp))
+            if (!userData) {
+                res.render("forgot", { error: "Wrong or expired OTP" })
+                return
+            }
+            let user = new User(userData)
+            const loginResponse = await UsersDAO.loginUser(user.username, user.encoded())
+            if (!loginResponse.success) {
+                res.render("login", { error: loginResponse.error })
+                return
+            }
+            res.cookie("token", user.encoded())
+            res.redirect("/users/changePassword/0")
+        } catch (e) {
+            console.error("Unable to post forgot password", e)
+            res.redirect("/")
+        }
+    }
+
+    static async getChangePassword(req, res) {
+        try {
+            let { error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            res.render("changePassword", { id: req.params.id })
+        } catch (e) {
+            console.error("Get chage password error", e)
+            res.redirect("/")
+        }
+    }
+
+    static async changePassword (req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.render("changePassword", { id: req.params.id, error: error })
+                return
+            }
+            let user = await UsersDAO.getUserByUserName(username)
+            if (typeof req.body.oldPassword !== 'undefined' && !(await bcrypt.compare(req.body.oldPassword, user.password))) {
+                res.render("changePassword", { id: req.params.id, error: "Sai mật khẩu cũ"} )
+                return
+            }
+            user.password = await hashPassword(req.body.newPassword)
+            await UsersDAO.editUser(user.username, user)
+            res.redirect("/")
+        } catch (e) {
+            console.error("Changa password error", e)
             res.redirect("/")
         }
     }

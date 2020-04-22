@@ -30,15 +30,10 @@ export default class PreRegistersDAO {
     static async insertPreRegister(user) {
         try {
             let otp = getRandomArbitrary(100000, 999999)
-            user.otp = otp
             await preRegisters.updateOne(
                 { "username": user.username },
-                { $set: { user } },
+                { $set: { user: user, date: new Date(), otp: otp } } ,
                 { upsert: true }
-            )
-            await preRegisters.createIndex(
-                { "username": 1 },
-                { "expireAfterSeconds": 300 }
             )
             return otp
         } catch (e) {
@@ -55,7 +50,7 @@ export default class PreRegistersDAO {
     static async getUserByOTP (otp) {
         try {
             return await preRegisters.findOne(
-                { "user.otp" : otp }
+                { "otp" : otp }
             )
         } catch (e) {
             console.error("Get user by OTP error ", e)

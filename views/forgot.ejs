@@ -1,0 +1,19 @@
+<%- include("header"); -%>
+
+    <main class="page login-page">
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                </div>
+
+                <form method="POST" action="/users/forgot/email">
+                    <% if (typeof error !== 'undefined' && error !== null) { %>
+                      <p style="color: red;"><%= error %></p>
+                    <% } %>
+                    <div class="form-group"><label for="email">Hãy nhập email của bạn để lấy mã otp.</label><input class="form-control item" type="email" id="email" name="email"></div>
+                    <button class="btn btn-primary btn-block" type="submit">Enter</button></form>
+            </div>
+        </section>
+    </main>
+    
+<%- include("footer"); -%>
