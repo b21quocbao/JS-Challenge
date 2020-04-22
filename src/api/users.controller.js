@@ -204,7 +204,8 @@ export default class UsersController {
             }
             let form = new formidable.IncomingForm()
             let s = __dirname.slice(0, __dirname.length - 7) + "public"
-            
+            console.log("dmm")
+            console.log(s)
             form.parse(req)
             form.on('fileBegin', function (name, file){
                 file.path = s + '/uploads/' + userFromHeader.username + "-" + file.name;
