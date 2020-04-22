@@ -203,7 +203,7 @@ export default class UsersController {
                 return
             }
             let form = new formidable.IncomingForm()
-            let s = __dirname.slice(0, __dirname.length - 7) + "public"
+            let s = "/public"
             console.log("dmm")
             console.log(s)
             form.parse(req)
