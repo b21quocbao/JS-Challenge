@@ -25,16 +25,13 @@ export default class ConfessionsDAO {
         - "status", post brief
         - "date", date create confessions
 
-     * @param {Object} user - Object containing user's information
-     * @param {Object} confession - Object containing confession's information 
+     * @param {string} userId - Id of the user who create the confession
+     * @param {string} text - text of the confession
      * @returns {DAOResponse} Returns an object with either DB response or "error"
      */
-    static async addConfession(userId, confession) {
+    static async addConfession(userId, text) {
         try {
-            console.log("Added a confession ", " on ", date)
-            confession.date = getTime()
-            confession.userId = ObjectId(userId)
-            return await posts.insertOne(confession)
+            return await confessions.insertOne({ userId: ObjectId(userId), text: text, status: "pending" })
         } catch (e) {
             console.error(`Unable to add confession: ${e}`)
             return { error: e }
@@ -42,14 +39,16 @@ export default class ConfessionsDAO {
     }
 
     /**
-     * Gets a confession list
-     * @returns {Confessions[]} Returns a list of confessions
+     * Gets a success confessions list
+     * @returns {Confessions[]} Returns a list of success confessions
      */
-    static async getConfessions() {
+    static async getSuccessConfessions() {
         try {
             const pipeline = [
-                {
-                $lookup: {
+                { $match: {
+                    status: "accepted"
+                } },
+                { $lookup: {
                     from: "comments",
                     let: { id: "$_id" },
                     pipeline: [
@@ -67,12 +66,30 @@ export default class ConfessionsDAO {
                       },
                     ],
                     as: "comments",
-                  },
-                },
+                } },
+                { $sort: { date: 1 } }
             ]
             return await confessions.aggregate(pipeline).toArray()
         } catch (e) {
-            console.error(`Unable to get list confession: ${e}`)
+            console.error(`Unable to get list success confession: ${e}`)
+            return []
+        }
+    }
+
+    /**
+     * Gets a pending confessions list
+     * @returns {Confessions[]} Returns a list of pending confessions
+     */
+    static async getPendingConfessions() {
+        try {
+            const pipeline = [
+                { $match: {
+                    status: "pending"
+                } }
+            ]
+            return await confessions.aggregate(pipeline).toArray()
+        } catch (e) {
+            console.error(`Unable to get list pending confession: ${e}`)
             return []
         }
     }
@@ -93,6 +110,41 @@ export default class ConfessionsDAO {
         }
     }
 
+    /**
+     * Accept a confession
+     * @param {string} - Id of accepted confession
+     * @returns {DAOResponse} Returns an object with either DB response or "error"
+     */
+    static async acceptConfession(id) {
+        try {
+            await confessions.updateOne(
+                { "_id": ObjectId(id) },
+                { $set: { "status": "accepted", date: new Date() } }
+            )
+            return { success: true }
+        } catch (e) {
+            console.error("Accept confession error", e)
+            return { error: e }
+        }
+    }
+
+    /**
+     * Decline a confession
+     * @param {string} - Id of declined confession
+     * @returns {DAOResponse} Returns an object with either DB response or "error"
+     */
+    static async declineConfession(id) {
+        try {
+            await confessions.updateOne(
+                { "_id": ObjectId(id) },
+                { $set: { "status": "declined" } }
+            )
+            return { success: true }
+        } catch (e) {
+            console.error("Decline confession error", e)
+            return { error: e }
+        }
+    }
 }
 
 /**

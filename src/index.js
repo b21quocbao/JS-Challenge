@@ -33,6 +33,10 @@ MongoClient.connect(process.env.DB_URI, {
         await CommentsDAO.injectDB(client)
         await PreRegistersDAO.injectDB(client)
 
+        app.get("/test", (req, res) => {
+            res.render("test")
+        })
+
         io.on('connection', async socket => {
             socket.on('login', async function() {
                 
