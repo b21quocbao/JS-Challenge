@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import UsersDAO from "../dao/usersDAO"
 import PreRegistersDAO from "../dao/preRegistersDAO";
-import formidable from "formidable"
+import RequestPermissionsDAO from "../dao/requestPermissionsDAO";
 import nodemailer from "nodemailer"
 let transport = nodemailer.createTransport({
     service: "gmail",
@@ -56,7 +56,6 @@ export class User {
 export default class UsersController {
     static async preRegister(req, res) {
         try {
-            console.log(req.body);
             req.body.avatarFile = "assets/img/avatars/" + req.body.sex + ".jpg"
             const userFromBody = req.body
 
@@ -205,7 +204,6 @@ export default class UsersController {
             const userFromHeader = await User.decoded(userJwt)
             var { error } = userFromHeader
             if (error) {
-                console.log("dmm");
                 res.redirect("/")
                 return
             }
@@ -393,6 +391,124 @@ export default class UsersController {
             res.redirect("/")
         } catch (e) {
             console.error("Changa password error", e)
+            res.redirect("/")
+        }
+    }
+
+    static async getAdminPage(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            let user = await UsersDAO.getUserByUserName(username)
+            let status = await UsersDAO.getUsers()
+            res.render("adminPage", { user: user, status: status })
+        } catch (e) {
+            console.error("Get admin page error", e)       
+            res.redirect("/")
+        }
+    }
+
+    static async getPermissionPage(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            } 
+            let user = await UsersDAO.getUserByUserName(username)
+            if (!user) {
+                res.redirect("/")
+                return
+            }
+            if (typeof user.permission === 'undefined' || user.permission === null) {
+                res.redirect("/")
+                return
+            }
+            let status = await UsersDAO.getUsers()
+            let requests = await RequestPermissionsDAO.getRequests()
+            res.render("checkPermission", { requests: requests, user: user, status: status })
+        } catch (e) {
+            console.error("Get permission page error", e);
+            res.redirect("/")
+        }
+    }
+
+    static async declinePermission(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            let user = await UsersDAO.getUserByUserName(username)
+            if (typeof user.permission === 'undefined' || user.permission === null) {
+                res.redirect("/")
+                return
+            }
+            await RequestPermissionsDAO.deleteRequestById(req.params.id, "declined")
+            res.redirect("/users/checkPermission")
+        } catch (e) {
+            console.error("Decline permission error", e);
+            res.redirect("/")
+        }
+    }
+
+    static async acceptPermission(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            let user = await UsersDAO.getUserByUserName(username)
+            if (typeof user.permission === 'undefined' || user.permission === null) {
+                res.redirect("/")
+                return
+            }
+            let request = await RequestPermissionsDAO.findRequestById(req.params.id)
+            
+            await UsersDAO.addPermission(request.username, request.permission)
+            await RequestPermissionsDAO.deleteRequestById(req.params.id, "accepted")
+            res.redirect("/users/checkPermission")
+        } catch (e) {
+            console.error("Accept permission error", e);
+            res.redirect("/")
+        }
+    }
+
+    static async request(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            for (let i in req.body)
+            await RequestPermissionsDAO.insertRequest(username, i)
+            res.redirect("/users/profile")
+        } catch (e) {
+            console.error("Request error", e)
+            res.redirect("/")
+        }
+    }
+
+    static async getRequestStatus(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            let user = await UsersDAO.getUserByUserName(username)
+            let status = await UsersDAO.getUsers()
+            let requests = await RequestPermissionsDAO.getRequestsByUsername(username)
+            
+            res.render("requestStatus", { user: user, status: status, requests:  requests})
+        } catch (e) {
+            console.error("Get request status error", e)
             res.redirect("/")
         }
     }

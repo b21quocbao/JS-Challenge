@@ -45,10 +45,7 @@
                           <% if (typeof user.permission === 'undefined' || !user.permission) { %>
                           <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox4" name="permission"><label class="form-check-label" for="checkbox4">Phê duyệt các yêu cầu quyền quản trị</label></div>
                           <% } %>
-                          <% if (typeof user.admin === 'undefined' || !user.admin) { %>
-                          <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox5" name="admin"><label class="form-check-label" for="checkbox5">Quản lý các users</label></div>
                           <br>
-                          <% } %>
                           <div class="form-row">
                             <div class="col-md-12 content-right"><button class="btn btn-warning form-btn mr-1" type="submit">Request</button></div>
                           </div>

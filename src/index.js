@@ -5,6 +5,7 @@ import PostsDAO from "./dao/postsDAO"
 import UsersDAO from "./dao/usersDAO"
 import TrainingsDAO from "./dao/trainingsDAO"
 import CommentsDAO from "./dao/commentsDAO"
+import RequestPermissionsDAO from "./dao/requestPermissionsDAO"
 import CfsDAO from "./dao/confessionsDAO"
 import PreRegistersDAO from "./dao/preRegistersDAO"
 import { User } from "./api/users.controller";
@@ -32,6 +33,7 @@ MongoClient.connect(process.env.DB_URI, {
         await TrainingsDAO.injectDB(client)
         await CommentsDAO.injectDB(client)
         await PreRegistersDAO.injectDB(client)
+        await RequestPermissionsDAO.injectDB(client)
 
         app.get("/test", (req, res) => {
             res.render("test")

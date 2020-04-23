@@ -255,6 +255,42 @@ export default class UsersDAO {
             return { error: e }
         }
     }
+    /**
+     * Add Permission
+     * @param {string} username - username of the user request 
+     * @param {string} permission - name of the permission that user added
+     * @returns {DAOResponse} - Returns an object with either DB response or "error"
+     */
+    static async addPermission(username, permission) {
+        try {
+            if (permission === "post") {
+                await users.updateOne(
+                    { username: username },
+                    { $set: { post: 1 } }
+                )
+            }
+            if (permission === "cfs") {
+                await users.updateOne(
+                    { username: username },
+                    { $set: { cfs: 1 } }
+                )
+            }
+            if (permission === "permission") {
+                await users.updateOne(
+                    { username: username },
+                    { $set: { permission: 1 } }
+                )
+            }
+            if (permission === "training") {
+                await users.updateOne(
+                    { username: username },
+                    { $set: { training: 1 } }
+                )
+            }
+        } catch (e) {
+            
+        }
+    }
 }
 
 /**

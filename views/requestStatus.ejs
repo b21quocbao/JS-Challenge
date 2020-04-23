@@ -1,0 +1,28 @@
+<%- include("header"); -%>
+<main class="page blog-post">
+
+<section class="clean-block clean-post dark">
+  <% if (!requests.length) { %>
+    <div class="block-heading">
+      <h2>Bạn chưa có requests nào</h2>
+    </div>
+  <% } %>
+  <% for (let i of requests) { %>
+    <div class="container mb-5">
+      <div class="block-content">
+        <div class="post-body">
+          <p style="font-size: 20px;"><%= i.permission %></p>
+            <% if (i.status === "accepted") { %>
+            <button type="submit" class="btn btn-success mr-1">Accepted</button>
+            <% } else if (i.status === "pending") { %>
+            <button type="submit" class="btn btn-warning">Pending</button>
+            <% } else if (i.status === "declined") { %> 
+            <button type="submit" class="btn btn-danger">Declined</button>
+            <% } %>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</section>
+</main>
+<%- include("footer"); -%>

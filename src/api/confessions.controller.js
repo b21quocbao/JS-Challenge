@@ -20,7 +20,7 @@ export default class ConfessionsController {
 
             res.render("confession-list", { confessions: confessions, user: user, status: status })
         } catch (e) {
-            console.log("API get confessions error", e)
+            console.error("API get confessions error", e)
             res.status(500).json({ error: e })
         }
     }
@@ -39,7 +39,7 @@ export default class ConfessionsController {
 
             res.render("addConfession", { user: user, status: status })
         } catch (e) {
-            console.log("API get edit confession error", e)
+            console.error("API get edit confession error", e)
             res.status(500).json({ error: e })
         }
     }
@@ -64,7 +64,7 @@ export default class ConfessionsController {
 
             res.render("checkConfession", { confessions: confessions, user: user, status: status })
         } catch (e) {
-            console.log("API get edit confession error", e)
+            console.error("API get edit confession error", e)
             res.status(500).json({ error: e })
         }
     }
@@ -87,7 +87,7 @@ export default class ConfessionsController {
             await confessionsDAO.acceptConfession(req.params.id)
             res.redirect("/confessions/check")
         } catch (e) {
-            console.log("API accept confession error", e)
+            console.error("API accept confession error", e)
             res.status(500).json({ error: e })
         }
     }
@@ -110,7 +110,7 @@ export default class ConfessionsController {
             await confessionsDAO.declineConfession(req.params.id)
             res.redirect("/confessions/check")
         } catch (e) {
-            console.log("API accept confession error", e)
+            console.error("API accept confession error", e)
             res.status(500).json({ error: e })
         }
     }
@@ -126,10 +126,27 @@ export default class ConfessionsController {
             
             let user = await usersDAO.getUserByUserName(username)
             
-            console.log(await confessionsDAO.addConfession(user._id,req.body.text))
+            await confessionsDAO.addConfession(user._id,req.body.text)
             res.redirect("/confessions/list")
         } catch (e) {
-            console.log("API update confession by id error", e)
+            console.error("API update confession by id error", e)
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static async apiGetStatus(req, res) {
+        try {
+            let { username, error } = await User.decoded(req.cookies.token)
+            
+            if (error) {
+                res.redirect("/")
+                return
+            }
+            let user = await usersDAO.getUserByUserName(username)
+            let status = await usersDAO.getUsers()
+            res.render("confessionStatus", { user: user, status: status, confessions: await ConfessionsDAO.getConfessionsByUserId(user._id) })
+        } catch (e) {
+            console.error("API get status error", e)
             res.status(500).json({ error: e })
         }
     }

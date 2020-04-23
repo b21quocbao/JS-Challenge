@@ -1,0 +1,29 @@
+<%- include("header"); -%>
+<main class="page landing-page">
+  <section class="clean-block clean-form dark">
+    <div class="container">
+      <div class="block-heading">
+        <h2 class="text-info">Quản lý</h2>
+      </div>
+      <form method="POST" action="/confessions/add" style="
+      margin: auto;
+      width: 100%;max-width: 100%;">
+      <% if (typeof user.cfs === 'undefined' || user.cfs === null) { %>
+      <% if (typeof user.permission === 'undefined' || user.permission === null) { %> 
+        <p>Bạn chưa có quyền quản lý nào</p>
+        <a href="/users/request">Ấn ần vào đây để có thêm quyền quản lý</a>
+      <% } %>
+      <% } %>
+      <% if (typeof user.cfs !== 'undefined' && user.cfs !== null) { %> 
+        <a href="/confessions/check" style="font-size: 20px;">Check confession</a>
+        <br>
+        <br>
+      <% } %>
+      <% if (typeof user.permission !== 'undefined' && user.permission !== null) { %> 
+        <a href="/users/checkPermission" style="font-size: 20px;">Check user's permission</a>
+      <% } %>
+      </form>
+    </div>
+  </section>
+</main>
+<%- include("footer"); -%>

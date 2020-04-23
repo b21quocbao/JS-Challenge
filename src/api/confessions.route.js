@@ -10,6 +10,7 @@ router.route("/list").get(ConfessionsCtrl.apiGetConfessions)
 router.route("/check").get(ConfessionsCtrl.apiGetCheckConfessions)
 router.route("/:id/accept").post(ConfessionsCtrl.apiAcceptConfession)
 router.route("/:id/decline").post(ConfessionsCtrl.apiDeclineConfession)
+router.route("/status").get(ConfessionsCtrl.apiGetStatus)
 
 router.route("/:id/addComment/:post").post(CommentsCtrl.addComment)
 

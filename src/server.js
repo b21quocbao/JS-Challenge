@@ -42,6 +42,7 @@ app.use('/confessions', express.static('public'))
 app.use('/users/forgot', express.static('public'))
 app.use('/users/otp', express.static('public'))
 app.use('/users/changePassword', express.static('public'))
+app.use('/users/request', express.static('public'))
 
 // app.use("*", (req, res) => res.status(404).json({ error: "not found" }))
 

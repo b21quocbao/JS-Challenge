@@ -4,6 +4,17 @@
     <script>
       var user = <%- JSON.stringify(user) %>;
     </script>
+    <div class="container mb-5">
+      <% if (typeof user !== undefined && user !== null) { %>
+        <form action="/confessions/add" style="display: inline-block;">
+          <button class="btn btn-primary" type="submit">Thêm confession</button>
+        </form>
+      <% } %>
+      <form action="/confessions/status" method="GET" style="float: right;">
+        <button class="btn btn-warning" type="submit" style="height: 10%;">Kiểm tra tình trang các confessions mà bạn gửi</button>
+      </form>
+      
+    </div>
     <% for (let j = confessions.length - 1; j >= 0; -- j) { %>
     <% let i = confessions[j] %>
     <div class="container mb-5">
@@ -38,13 +49,7 @@
       </div>
     </div>
     <% } %>
-    <% if (typeof user !== undefined && user !== null) { %>
-      <div class="container mt-3">
-      <form action="/confessions/add">
-        <button class="btn btn-primary btn-lg" type="submit">Thêm confession</button>
-      </form>
-    </div>
-    <% } %>
+    
   </section>
 </main>
 <script>
