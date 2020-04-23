@@ -4,14 +4,9 @@ import jwt from "jsonwebtoken"
 import UsersDAO from "../dao/usersDAO"
 import PreRegistersDAO from "../dao/preRegistersDAO";
 import RequestPermissionsDAO from "../dao/requestPermissionsDAO";
-import nodemailer from "nodemailer"
-let transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-       user: 'jschallengeteam1@gmail.com',
-       pass: 'baokienthong'
-    }
-});
+var API_KEY = '1aa45ea06d12f41f46294133b88fa13d-f135b0f1-49259e5a';
+var DOMAIN = 'jsclub.codes';
+var mailgun = require('mailgun-js')({apiKey: API_KEY, domain: DOMAIN});
 
 const hashPassword = async password => await bcrypt.hash(password, await bcrypt.genSalt(10))
 
@@ -90,15 +85,13 @@ export default class UsersController {
                 return
             }
             let otp = await PreRegistersDAO.insertPreRegister(userInfo)
-            const message = {
-                from: 'jschallengeteam1@gmail.com', 
-                to: userFromBody.email,        
-                subject: 'Your OTP for your register',
+            const data = {
+                from: 'Js Club <jsclub@fpt.edu.vn>',
+                to: userFromBody.email,
+                subject: 'OTP',
                 text: 'Chào bạn\nCảm ơn bạn đã đến với CLB JS của chúng mình\nĐây là mã OTP của bạn: ' + otp.toString()
             };
-            transport.sendMail(message, function(err, info) {
-                if (err) {} else {}
-            });
+            mailgun.messages().send(data)
             res.redirect("/users/otp/register")
         } catch (e) {
             console.error(e)
@@ -323,15 +316,13 @@ export default class UsersController {
                 return
             }
             let otp = await PreRegistersDAO.insertPreRegister(user)
-            const message = {
-                from: 'jschallengeteam1@gmail.com', 
-                to: req.body.email,        
-                subject: 'Your OTP for your register',
+            const data = {
+                from: 'Js Club <jsclub@fpt.edu.vn>',
+                to: req.body.email,
+                subject: 'OTP',
                 text: 'Chào bạn\nCảm ơn bạn đã đến với CLB JS của chúng mình\nĐây là mã OTP của bạn: ' + otp.toString()
             };
-            transport.sendMail(message, function(err, info) {
-                if (err) {} else {}
-            });
+            mailgun.messages().send(data)
             res.redirect("/users/otp/forgot")
         } catch (e) {
             console.error(e)
