@@ -98,7 +98,16 @@ export default class PostsController {
                 res.redirect("/posts/list")
                 return
             }
+            let post = await postsDAO.getPostById(req.params.id)
+            if (!post) {
+                res.redirect("/posts/list")
+                return
+            }
             
+            if (req.body.imgPath === '') {
+                req.body.imgPath = post.imgPath
+            }
+
             await postsDAO.updatePost(req.body, user.username, req.params.id)
 
             res.redirect("/posts/list")

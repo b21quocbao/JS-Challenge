@@ -199,18 +199,11 @@ export default class UsersController {
             const userFromHeader = await User.decoded(userJwt)
             var { error } = userFromHeader
             if (error) {
+                console.log("dmm");
                 res.redirect("/")
                 return
             }
-            let form = new formidable.IncomingForm()
-            let s = "/public"
-            console.log("dmm")
-            console.log(s)
-            form.parse(req)
-            form.on('fileBegin', function (name, file){
-                file.path = s + '/uploads/' + userFromHeader.username + "-" + file.name;
-            });
-
+            
             await UsersDAO.editUser(userFromHeader.username,req.body)
 
             res.redirect("/users/profile")

@@ -8,13 +8,17 @@
                         <div class="alert alert-info absolue center" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span>Profile save with success</span></div>
                     </div>
                 </div>
-                <form action="/users/update" enctype="multipart/form-data" method="POST">
+                <form action="/users/update" method="POST">
                     <div class="form-row profile-row">
                       <div class="col-md-4 relative">
                         <label>Ảnh đại diện</label>
+                        <br>
+                        <button type="button" style="display: none;" class="btn btn-danger" id="errorText"></button>
+                        <button type="button" style="display: none;" class="btn btn-success" id="successText">Successfully uploaded</button>
+                        <button type="button" style="display: none;" class="btn btn-warning" id="pendingText">Uploading...</button>
                         <div class="avatar">
                             <div class="avatar-bg center"></div>
-                        </div><input type="file" class="form-control" name="avatar-file">
+                        </div><input type="file" class="form-control" id="avatar">
                       </div>
                         <div class="col-md-8">
                             <h1>Cập nhật thông tin cá nhân</h1>
@@ -39,6 +43,7 @@
                                       <div class="form-group"><label>Nơi ở&nbsp;</label><input class="form-control" type="text" name="home" autocomplete="off" value="<%= user.home %>"></div>
                                   </div>
                               </div>
+                              <input type="text" style="display:none;" value="a" name="avatarFile" id="avatar-file">
                               <hr>
                               <a href="/users/changePassword/1">Đổi mật khẩu</a>
                               <br>
@@ -52,5 +57,52 @@
             </div>
         </section>
     </main>
+    <script>
+      $("document").ready(function() {
+        $('input[type=file]').on("change", function() {
+          if ($(this).get(0).files.length > 0) {
+            $("#successText").css("display", "none")
+            $("#errorText").css("display", "none")
+            let file = $(this).get(0).files[0]
+            let fileSize = file.size / 1024 / 1024
+            if (fileSize > 2) {
+              $('#errorText').css("display", "")
+              $('#errorText').text("Please enter file size smaller than 2Mb")
+              return false
+            }
+            $("#pendingText").css("display", "")
+  
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Client-ID 9fb3ad5364e669c");
+  
+            var formdata = new FormData();
+            formdata.append("image", file);
+  
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: formdata,
+              redirect: 'follow'
+            };
+  
+            fetch("https://api.imgur.com/3/image", requestOptions)
+              .then(response => response.text())
+              .then(result => {
+                let x = JSON.parse(result)
+                $("#pendingText").css("display", "none")
+                if (x.data.error) {
+                  $('#errorText').css("display", "")
+                  $('#errorText').text(x.data.error.message)
+                } else {
+                  $('#avatar-file').attr("value", x.data.link);
+                  $('#successText').css("display", "")
+                }
+              })
+              .catch(error => console.log('error', error));
+          }
+        });
+      });
+      
+    </script>
 
 <%- include("footer"); -%>
