@@ -27,8 +27,17 @@
                                   <div class="col-sm-12 col-md-6">
                                       <div class="form-group"><label>Tên</label><input class="form-control" type="text" name="name" value="<%= user.name %>"></div>
                                   </div>
-                                  <div class="col-sm-12 col-md-6">
-                                      <div class="form-group"><label>Ban</label><input class="form-control" type="text" name="role" value="<%= user.role %>"></div>
+                                  <div class="form-group col-sm-12 col-md-6">
+                                    <label for="inputState">Ban</label>
+                                    <select id="role" class="form-control" name="role">
+                                      <option selected><%= user.role %></option>
+                                      <option>Chuyên môn</option>
+                                      <option>Đối ngoại</option>
+                                      <option>Truyền Thông</option>
+                                      <option>Văn Hoá</option>
+                                      <option>Nội dung</option>
+                                      <option>Khác</option>
+                                    </select>
                                   </div>
                                   <div class="col"><label>Số điện thoại</label><input class="form-control" type="text" name="phone" value="<%= user.phone %>"></div>
                                   <div class="col-sm-12 col-md-6">
@@ -43,7 +52,7 @@
                                       <div class="form-group"><label>Nơi ở&nbsp;</label><input class="form-control" type="text" name="home" autocomplete="off" value="<%= user.home %>"></div>
                                   </div>
                               </div>
-                              <input type="text" style="display:none;" value="a" name="avatarFile" id="avatar-file">
+                              <input type="text" style="display:none;" value="" name="avatarFile" id="avatar-file">
                               <hr>
                               <a href="/users/changePassword/1">Đổi mật khẩu</a>
                               <br>

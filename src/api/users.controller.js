@@ -56,9 +56,10 @@ export class User {
 export default class UsersController {
     static async preRegister(req, res) {
         try {
+            console.log(req.body);
             req.body.avatarFile = "assets/img/avatars/" + req.body.sex + ".jpg"
             const userFromBody = req.body
-            
+
             if (userFromBody && userFromBody.password.length < 8) {
                 res.render("register", { error: "Your password must be at least 8 characters." })
                 return
@@ -69,6 +70,11 @@ export default class UsersController {
             }
             if (userFromBody && !userFromBody.email.includes("@fpt.edu.vn")) {
                 res.render("register", { error: "You must enter an email from FPT University" })
+                return
+            }
+
+            if (userFromBody && userFromBody.role === 'Choose here...') {
+                res.render("register", { error: "Bạn phải chọn ban của mình" })
                 return
             }
             
@@ -203,6 +209,10 @@ export default class UsersController {
                 res.redirect("/")
                 return
             }
+            let user = await UsersDAO.getUserByUserName(userFromHeader.username)
+            if (req.body.avatarFile === "") {
+                req.body.avatarFile = user.avatarFile
+            }
             
             await UsersDAO.editUser(userFromHeader.username,req.body)
 
@@ -224,7 +234,6 @@ export default class UsersController {
             }
             
             let result = await UsersDAO.getUserByUserName(userFromHeader.username)
-            
             res.redirect("/users/" + result.username)
         } catch (e) {
             console.error("Error at get profile", e)
@@ -246,6 +255,7 @@ export default class UsersController {
             let status = await UsersDAO.getUsers()
             // Update: Update own information only
             res.render("user", { user: result, status: status, update: (result.username == userFromHeader.username) })
+            return
         } catch (e) {
             console.error("Error at get info user", e)
             res.redirect("/")
